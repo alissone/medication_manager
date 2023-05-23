@@ -190,13 +190,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     var cardIcon = Icons.medication_rounded;
 
-    Medication example = Medication(
-      name: 'Medicine X',
-      startTime: TimeOfDay(hour: 8, minute: 0),
-      repeatDelay: TimeOfDay(hour: 0, minute: 30),
-      color: MedicationColor.verde,
-      dosage: Dosage(2.5, 'mg'),
-    );
 
     return Scaffold(
       appBar: AppBar(
@@ -207,21 +200,22 @@ class _MyHomePageState extends State<MyHomePage> {
         shrinkWrap: true,
         // Ensures the ListView takes only the necessary space
         children: <Widget>[
-          ListCard(
-            cardIcon: cardIcon,
-            medicationTitle: "Paracetamol",
-            medicationDose: Dosage(750, 'mg'),
-            medicationFrequency: 'a cada 8 horas',
-            medicationNextDose: TimeOfDay(hour: 0, minute: 26),
-          ),
-          ListCard(
-            cardIcon: cardIcon,
-            medicationTitle: "Ibuprofeno",
-            medicationDose: Dosage(400, 'mg'),
-            medicationFrequency: 'a cada 12 horas',
-            medicationNextDose: TimeOfDay(hour: 1, minute: 5),
-          ),
-          MedicationCard(medication: example),
+          MedicationCard(
+              medication: Medication(
+                name: 'Paracetamol',
+                startTime: TimeOfDay(hour: 12, minute: 0),
+                repeatDelay: TimeOfDay(hour: 2, minute: 30),
+                color: MedicationColor.vermelho,
+                dosage: Dosage(750, 'mg'),
+              )),
+          MedicationCard(
+            medication: Medication(
+            name: 'Ibuprofeno',
+            startTime: TimeOfDay(hour: 8, minute: 0),
+            repeatDelay: TimeOfDay(hour: 0, minute: 30),
+            color: MedicationColor.verde,
+            dosage: Dosage(400, 'mg'),
+          )),
         ],
       )),
       floatingActionButton: FloatingActionButton(
