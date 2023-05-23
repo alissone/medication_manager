@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:medication_manager/colors.dart';
-import 'package:medication_manager/main.dart';
+import 'package:medication_manager/models.dart';
 import 'package:medication_manager/text_styles.dart';
 import 'package:medication_manager/time_tools.dart';
 
-class MedicationCard extends StatelessWidget {
-  const MedicationCard({
+class ListCard extends StatelessWidget {
+  const ListCard({
     Key? key,
     required this.cardIcon,
     required this.medicationTitle,
