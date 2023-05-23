@@ -116,17 +116,7 @@ class _MyFormState extends State<MyForm> {
               });
             },
           ),
-          const SizedBox(height: 16.0),
-          CheckboxListTile(
-            title: const Text("Iniciar automaticamente"),
-            value: iniciarAutomaticamente,
-            onChanged: (value) {
-              setState(() {
-                iniciarAutomaticamente = value ?? false;
-              });
-            },
-          ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 32.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -147,13 +137,24 @@ class _MyFormState extends State<MyForm> {
                   ).then((TimeOfDay? result){
                     setState(() {
                       selectedTime24Hour = result!;
-                      intervalString = "$selectedTime24Hour.hour : $selectedTime24Hour.minute";
+                      intervalString = "${selectedTime24Hour.hour}:${selectedTime24Hour.minute}";
                     });
+                    print(intervalString);
                   });;
                 },
-                child: Text(intervalString),
+                child: Text('$intervalString'),
               ),
             ],
+          ),
+          const SizedBox(height: 8.0),
+          CheckboxListTile(
+            title: const Text("Ativo"),
+            value: iniciarAutomaticamente,
+            onChanged: (value) {
+              setState(() {
+                iniciarAutomaticamente = value ?? false;
+              });
+            },
           ),
           const SizedBox(height: 16.0),
           Row(
