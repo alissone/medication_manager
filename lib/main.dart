@@ -46,10 +46,107 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: AppColors.appColor,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Medicamentos'),
     );
   }
 }
+
+class MyForm extends StatefulWidget {
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+class _MyFormState extends State<MyForm> {
+  String nome = "";
+  String frequencia = "";
+  String cor = "";
+  bool iniciarAutomaticamente = true;
+
+  List<String> frequenciaOptions = [
+    "diariamente",
+    "semanalmente",
+    "intervalo personalizado"
+  ];
+
+  // List<String> corOptions = ["vermelho", "verde", "azul", "laranja"];
+  Map<int, String> corOptions = {
+    0: "vermelho",
+    1: "verde",
+    2: "azul",
+    3: "laranja",
+  };
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: [
+          TextFormField(
+            decoration: InputDecoration(labelText: "Nome"),
+            onChanged: (value) {
+              setState(() {
+                nome = value;
+              });
+            },
+          ),
+          SizedBox(height: 16.0),
+          DropdownButtonFormField<int>(
+            decoration: InputDecoration(labelText: "Cor"),
+            value: cor != null ? corOptions.keys.firstWhere(
+                  (key) => corOptions[key] == cor,
+              orElse: () => corOptions.keys.first,
+            ) : null,
+            items: corOptions.keys.map((index) {
+              return DropdownMenuItem<int>(
+                value: index,
+                child: Text(corOptions[index] ?? ""),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                cor = corOptions[value] ?? "";
+              });
+            },
+          ),
+          SizedBox(height: 16.0),
+          CheckboxListTile(
+            title: Text("Iniciar automaticamente"),
+            value: iniciarAutomaticamente,
+            onChanged: (value) {
+              setState(() {
+                iniciarAutomaticamente = value ?? false;
+              });
+            },
+          ),
+          SizedBox(height: 16.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                onPressed: () {
+                  // Perform the desired action when "Cancelar" is pressed
+
+                  Navigator.of(context).pop();
+                },
+                child: Text("Cancelar"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Perform the desired action when "OK" is pressed
+                  // You can access the form values here (e.g., nome, frequencia, cor, iniciarAutomaticamente)
+                },
+                child: Text("Adicionar"),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -57,23 +154,15 @@ class MyHomePage extends StatefulWidget {
 
   Widget _buildPopupDialog(BuildContext context) {
     return new AlertDialog(
-      title: const Text('Popup example'),
+      title: const Text('Adicionar Medicamento'),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Hello"),
+          // Text("Hello"),
+          MyForm(),
         ],
       ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Close'),
-        ),
-      ],
     );
   }
 
