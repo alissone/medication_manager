@@ -76,28 +76,34 @@ class _MyFormState extends State<MyForm> {
     3: "laranja",
   };
 
+  TimeOfDay selectedTime24Hour = TimeOfDay(hour: 0, minute: 0);
+
 
   @override
   Widget build(BuildContext context) {
+    String intervalString = "Escolher";
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
           TextFormField(
-            decoration: InputDecoration(labelText: "Nome"),
+            decoration: const InputDecoration(labelText: "Nome"),
             onChanged: (value) {
               setState(() {
                 nome = value;
               });
             },
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           DropdownButtonFormField<int>(
-            decoration: InputDecoration(labelText: "Cor"),
-            value: cor != null ? corOptions.keys.firstWhere(
-                  (key) => corOptions[key] == cor,
-              orElse: () => corOptions.keys.first,
-            ) : null,
+            decoration: const InputDecoration(labelText: "Cor"),
+            value: cor != null
+                ? corOptions.keys.firstWhere(
+                    (key) => corOptions[key] == cor,
+                    orElse: () => corOptions.keys.first,
+                  )
+                : null,
             items: corOptions.keys.map((index) {
               return DropdownMenuItem<int>(
                 value: index,
@@ -110,9 +116,9 @@ class _MyFormState extends State<MyForm> {
               });
             },
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           CheckboxListTile(
-            title: Text("Iniciar automaticamente"),
+            title: const Text("Iniciar automaticamente"),
             value: iniciarAutomaticamente,
             onChanged: (value) {
               setState(() {
@@ -120,7 +126,36 @@ class _MyFormState extends State<MyForm> {
               });
             },
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Intervalo"),
+              TextButton(
+                onPressed: () {
+                  // Perform the desired action when "Cancelar" is pressed
+                  showTimePicker(
+                    context: context,
+                    initialTime: const TimeOfDay(hour: 0, minute: 0),
+                    builder: (BuildContext context, Widget? child) {
+                      return MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(alwaysUse24HourFormat: true),
+                        child: child!,
+                      );
+                    },
+                  ).then((TimeOfDay? result){
+                    setState(() {
+                      selectedTime24Hour = result!;
+                      intervalString = "$selectedTime24Hour.hour : $selectedTime24Hour.minute";
+                    });
+                  });;
+                },
+                child: Text(intervalString),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -130,14 +165,14 @@ class _MyFormState extends State<MyForm> {
 
                   Navigator.of(context).pop();
                 },
-                child: Text("Cancelar"),
+                child: const Text("Cancelar"),
               ),
               ElevatedButton(
                 onPressed: () {
                   // Perform the desired action when "OK" is pressed
                   // You can access the form values here (e.g., nome, frequencia, cor, iniciarAutomaticamente)
                 },
-                child: Text("Adicionar"),
+                child: const Text("Adicionar"),
               ),
             ],
           ),
@@ -153,9 +188,9 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
+    return AlertDialog(
       title: const Text('Adicionar Medicamento'),
-      content: new Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
