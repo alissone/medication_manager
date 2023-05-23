@@ -53,6 +53,14 @@ String formatTimeOfDay(TimeOfDay timeOfDay) {
   return formattedTime;
 }
 
+class Dosage {
+  double quantity;
+  String unit;
+
+  Dosage(this.quantity, this.unit);
+}
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -249,13 +257,15 @@ class _MyHomePageState extends State<MyHomePage> {
           MedicationCard(
             cardIcon: cardIcon,
             medicationTitle: "Paracetamol",
-            medicationFrequency: '500mg, a cada 8 horas',
+            medicationDose: Dosage(750, 'mg'),
+            medicationFrequency: 'a cada 8 horas',
             medicationNextDose: TimeOfDay(hour:0, minute: 26),
           ),
           MedicationCard(
             cardIcon: cardIcon,
             medicationTitle: "Ibuprofeno",
-            medicationFrequency: '400mg, a cada 12 horas',
+            medicationDose: Dosage(400, 'mg'),
+            medicationFrequency: 'a cada 12 horas',
             medicationNextDose: TimeOfDay(hour: 1, minute: 5),
           ),
         ],
@@ -274,6 +284,7 @@ class MedicationCard extends StatelessWidget {
     Key? key,
     required this.cardIcon,
     required this.medicationTitle,
+    required this.medicationDose,
     required this.medicationFrequency,
     required this.medicationNextDose,
   }) : super(key: key);
@@ -281,6 +292,7 @@ class MedicationCard extends StatelessWidget {
   final IconData cardIcon;
   final String medicationTitle;
   final String medicationFrequency;
+  final Dosage medicationDose;
   final TimeOfDay medicationNextDose;
 
   @override
@@ -319,8 +331,7 @@ class MedicationCard extends StatelessWidget {
                       medicationTitle,
                       style: AppTextStyles.heading2,
                     ),
-                    Text(
-                      medicationFrequency,
+                    Text("${medicationDose.quantity}${medicationDose.unit}, $medicationFrequency",
                       style: AppTextStyles.body,
                     ),
                     Container(
