@@ -60,16 +60,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   void _incrementCounter() {
     setState(() {
-      _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    String medicationTitle = "Paracetamol";
+    var medicationFrequency = '500mg, a cada 8 horas';
+    var medicationNextDose = 'Proximo em 26min';
+    var cardIcon = Icons.medication_rounded;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -78,54 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Card(
-              clipBehavior: Clip.hardEdge,
-              child: InkWell(
-                splashColor: AppColors.appColor.withAlpha(30),
-                onTap: () {
-                  debugPrint('Card tapped.');
-                },
-                child: SizedBox(
-                  width: 300,
-                  height: 80,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                              child: Icon(
-                                Icons.medication_rounded,
-                                size: 60,
-                                color: Colors.green,
-                        ),
-                            ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Paracetamol',style: AppTextStyles.heading2,),
-                            Text('500mg, a cada 8 horas', style: AppTextStyles.body,),
-                            Container(height: 6,),
-                            Text('Proximo em 26min', style: AppTextStyles.smallLight,),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            MedicationCard(
+              cardIcon: cardIcon,
+              medicationTitle: medicationTitle,
+              medicationFrequency: medicationFrequency,
+              medicationNextDose: medicationNextDose,
             ),
           ],
         ),
@@ -135,6 +94,78 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class MedicationCard extends StatelessWidget {
+  const MedicationCard({
+    Key? key,
+    required this.cardIcon,
+    required this.medicationTitle,
+    required this.medicationFrequency,
+    required this.medicationNextDose,
+  }) : super(key: key);
+
+  final IconData cardIcon;
+  final String medicationTitle;
+  final String medicationFrequency;
+  final String medicationNextDose;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        splashColor: AppColors.appColor.withAlpha(30),
+        onTap: () {
+          debugPrint('Card tapped.');
+        },
+        child: SizedBox(
+          width: 300,
+          height: 80,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 60,
+                height: 60,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                  child: Icon(
+                    cardIcon,
+                    size: 60,
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      medicationTitle,
+                      style: AppTextStyles.heading2,
+                    ),
+                    Text(
+                      medicationFrequency,
+                      style: AppTextStyles.body,
+                    ),
+                    Container(
+                      height: 6,
+                    ),
+                    Text(
+                      medicationNextDose,
+                      style: AppTextStyles.smallLight,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
