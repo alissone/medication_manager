@@ -1,56 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:medication_manager/colors.dart';
+import 'package:medication_manager/medication_card_widget.dart';
 
 void main() {
   runApp(const MyApp());
-}
-
-class AppColors {
-  static MaterialColor appColor = Colors.purple;
-}
-
-class AppTextStyles {
-  static const TextStyle heading1 = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-    color: Colors.black87,
-  );
-
-  static const TextStyle heading2 = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    color: Colors.black54,
-  );
-
-  static const TextStyle body = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
-    color: Colors.black54,
-  );
-
-  static const TextStyle smallLight = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w300,
-    color: Colors.black26,
-  );
-}
-
-String formatTimeOfDay(TimeOfDay timeOfDay) {
-  int hours = timeOfDay.hour;
-  int minutes = timeOfDay.minute;
-
-  if (hours == 0 && minutes == 0) {
-    return '0min';
-  }
-
-  String formattedTime = '';
-  if (hours > 0) {
-    formattedTime += '${hours}h';
-  }
-  if (minutes > 0) {
-    formattedTime += '${minutes}min';
-  }
-
-  return formattedTime;
 }
 
 class Dosage {
@@ -59,8 +12,6 @@ class Dosage {
 
   Dosage(this.quantity, this.unit);
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -78,12 +29,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyForm extends StatefulWidget {
+class MedicationForm extends StatefulWidget {
   @override
-  _MyFormState createState() => _MyFormState();
+  _MedicationFormState createState() => _MedicationFormState();
 }
 
-class _MyFormState extends State<MyForm> {
+class _MedicationFormState extends State<MedicationForm> {
   String nome = "";
   String frequencia = "";
   String cor = "";
@@ -221,7 +172,7 @@ class MyHomePage extends StatefulWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // Text("Hello"),
-          MyForm(),
+          MedicationForm(),
         ],
       ),
     );
@@ -279,75 +230,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class MedicationCard extends StatelessWidget {
-  const MedicationCard({
-    Key? key,
-    required this.cardIcon,
-    required this.medicationTitle,
-    required this.medicationDose,
-    required this.medicationFrequency,
-    required this.medicationNextDose,
-  }) : super(key: key);
-
-  final IconData cardIcon;
-  final String medicationTitle;
-  final String medicationFrequency;
-  final Dosage medicationDose;
-  final TimeOfDay medicationNextDose;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.hardEdge,
-      child: InkWell(
-        splashColor: AppColors.appColor.withAlpha(30),
-        onTap: () {
-          debugPrint('Card tapped.');
-        },
-        child: SizedBox(
-          width: 300,
-          height: 80,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 60,
-                height: 60,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                  child: Icon(
-                    cardIcon,
-                    size: 60,
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      medicationTitle,
-                      style: AppTextStyles.heading2,
-                    ),
-                    Text("${medicationDose.quantity}${medicationDose.unit}, $medicationFrequency",
-                      style: AppTextStyles.body,
-                    ),
-                    Container(
-                      height: 6,
-                    ),
-                    Text(
-                      "Proximo em ${formatTimeOfDay(medicationNextDose)}",
-                      style: AppTextStyles.smallLight,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
