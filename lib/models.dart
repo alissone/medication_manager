@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-enum MedicationColor { vermelho, verde, azul, laranja }
-
 class Medication {
 String name;
 TimeOfDay startTime;
 TimeOfDay repeatDelay;
-MedicationColor color;
+Color color;
 Dosage dosage;
 
 Medication({

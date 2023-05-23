@@ -8,6 +8,7 @@ class ListCard extends StatelessWidget {
   const ListCard({
     Key? key,
     required this.cardIcon,
+    required this.cardColor,
     required this.medicationTitle,
     required this.medicationDose,
     required this.medicationFrequency,
@@ -15,6 +16,7 @@ class ListCard extends StatelessWidget {
   }) : super(key: key);
 
   final IconData cardIcon;
+  final Color cardColor;
   final String medicationTitle;
   final String medicationFrequency;
   final Dosage medicationDose;
@@ -43,7 +45,7 @@ class ListCard extends StatelessWidget {
                   child: Icon(
                     cardIcon,
                     size: 60,
-                    color: Colors.green,
+                    color: cardColor,
                   ),
                 ),
               ),

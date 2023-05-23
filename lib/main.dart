@@ -47,7 +47,7 @@ class _MedicationFormState extends State<MedicationForm> {
     3: "laranja",
   };
 
-  TimeOfDay selectedTime24Hour = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay selectedTime24Hour = const TimeOfDay(hour: 0, minute: 0);
 
 
   @override
@@ -91,7 +91,7 @@ class _MedicationFormState extends State<MedicationForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Intervalo"),
+              const Text("Intervalo"),
               TextButton(
                 onPressed: () {
                   // Perform the desired action when "Cancelar" is pressed
@@ -133,15 +133,12 @@ class _MedicationFormState extends State<MedicationForm> {
             children: [
               TextButton(
                 onPressed: () {
-                  // Perform the desired action when "Cancelar" is pressed
                   Navigator.of(context).pop();
                 },
                 child: const Text("Cancelar"),
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Perform the desired action when "OK" is pressed
-                  // You can access the form values here (e.g., nome, frequencia, cor, iniciarAutomaticamente)
                 },
                 child: const Text("Adicionar"),
               ),
@@ -165,7 +162,7 @@ class MyHomePage extends StatefulWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // Text("Hello"),
+          // TODO: MedicationForm should take a Medication as parameter. To create a new one, give an empty medication. You should have an ID field as well.
           MedicationForm(),
         ],
       ),
@@ -203,17 +200,17 @@ class _MyHomePageState extends State<MyHomePage> {
           MedicationCard(
               medication: Medication(
                 name: 'Paracetamol',
-                startTime: TimeOfDay(hour: 12, minute: 0),
-                repeatDelay: TimeOfDay(hour: 2, minute: 30),
-                color: MedicationColor.vermelho,
+                startTime: const TimeOfDay(hour: 12, minute: 0),
+                repeatDelay: const TimeOfDay(hour: 2, minute: 30),
+                color: Colors.blue,
                 dosage: Dosage(750, 'mg'),
               )),
           MedicationCard(
             medication: Medication(
             name: 'Ibuprofeno',
-            startTime: TimeOfDay(hour: 8, minute: 0),
-            repeatDelay: TimeOfDay(hour: 0, minute: 30),
-            color: MedicationColor.verde,
+            startTime: const TimeOfDay(hour: 8, minute: 0),
+            repeatDelay: const TimeOfDay(hour: 0, minute: 30),
+            color: Colors.green,
             dosage: Dosage(400, 'mg'),
           )),
         ],
@@ -235,6 +232,7 @@ class MedicationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListCard(
+      cardColor: medication.color,
       cardIcon: Icons.medication_rounded,
       medicationTitle: medication.name,
       medicationDose: medication.dosage,
