@@ -55,6 +55,28 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
+  Widget _buildPopupDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Popup example'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Hello"),
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -62,14 +84,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     setState(() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => widget._buildPopupDialog(context),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    String medicationTitle = "Paracetamol";
-    var medicationFrequency = '500mg, a cada 8 horas';
-    var medicationNextDose = 'Proximo em 26min';
     var cardIcon = Icons.medication_rounded;
 
     return Scaffold(
@@ -77,18 +100,24 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            MedicationCard(
-              cardIcon: cardIcon,
-              medicationTitle: medicationTitle,
-              medicationFrequency: medicationFrequency,
-              medicationNextDose: medicationNextDose,
-            ),
-          ],
-        ),
-      ),
+          child: ListView(
+        shrinkWrap: true,
+        // Ensures the ListView takes only the necessary space
+        children: <Widget>[
+          MedicationCard(
+            cardIcon: cardIcon,
+            medicationTitle: "Paracetamol",
+            medicationFrequency: '500mg, a cada 8 horas',
+            medicationNextDose: 'Proximo em 26min',
+          ),
+          MedicationCard(
+            cardIcon: cardIcon,
+            medicationTitle: "Ibuprofeno",
+            medicationFrequency: '400mg, a cada 12 horas',
+            medicationNextDose: 'Proximo em 1h05min',
+          ),
+        ],
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
