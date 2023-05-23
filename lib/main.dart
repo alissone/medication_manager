@@ -34,6 +34,25 @@ class AppTextStyles {
   );
 }
 
+String formatTimeOfDay(TimeOfDay timeOfDay) {
+  int hours = timeOfDay.hour;
+  int minutes = timeOfDay.minute;
+
+  if (hours == 0 && minutes == 0) {
+    return '0min';
+  }
+
+  String formattedTime = '';
+  if (hours > 0) {
+    formattedTime += '${hours}h';
+  }
+  if (minutes > 0) {
+    formattedTime += '${minutes}min';
+  }
+
+  return formattedTime;
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -68,7 +87,6 @@ class _MyFormState extends State<MyForm> {
     "intervalo personalizado"
   ];
 
-  // List<String> corOptions = ["vermelho", "verde", "azul", "laranja"];
   Map<int, String> corOptions = {
     0: "vermelho",
     1: "verde",
@@ -163,7 +181,6 @@ class _MyFormState extends State<MyForm> {
               TextButton(
                 onPressed: () {
                   // Perform the desired action when "Cancelar" is pressed
-
                   Navigator.of(context).pop();
                 },
                 child: const Text("Cancelar"),
@@ -233,13 +250,13 @@ class _MyHomePageState extends State<MyHomePage> {
             cardIcon: cardIcon,
             medicationTitle: "Paracetamol",
             medicationFrequency: '500mg, a cada 8 horas',
-            medicationNextDose: 'Proximo em 26min',
+            medicationNextDose: TimeOfDay(hour:0, minute: 26),
           ),
           MedicationCard(
             cardIcon: cardIcon,
             medicationTitle: "Ibuprofeno",
             medicationFrequency: '400mg, a cada 12 horas',
-            medicationNextDose: 'Proximo em 1h05min',
+            medicationNextDose: TimeOfDay(hour: 1, minute: 5),
           ),
         ],
       )),
@@ -264,7 +281,7 @@ class MedicationCard extends StatelessWidget {
   final IconData cardIcon;
   final String medicationTitle;
   final String medicationFrequency;
-  final String medicationNextDose;
+  final TimeOfDay medicationNextDose;
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +327,7 @@ class MedicationCard extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      medicationNextDose,
+                      "Proximo em ${formatTimeOfDay(medicationNextDose)}",
                       style: AppTextStyles.smallLight,
                     ),
                   ],
