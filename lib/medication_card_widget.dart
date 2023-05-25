@@ -58,7 +58,7 @@ class ListCard extends StatelessWidget {
                       medicationTitle,
                       style: AppTextStyles.heading2,
                     ),
-                    Text("${medicationDose.quantity}${medicationDose.unit}, $medicationFrequency",
+                    Text("${medicationDose.value}${medicationDose.unit}, $medicationFrequency",
                       style: AppTextStyles.body,
                     ),
                     Container(

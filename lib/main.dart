@@ -38,6 +38,8 @@ class MyHomePage extends StatefulWidget {
 
   void fetchData() async {
     final response = await http.get(Uri.parse(apiUrl));
+    updateText("Loading...");
+
     if (response.statusCode == 200) {
       final jsonMap = json.decode(response.body);
       final todo = Todo.fromJson(jsonMap);
@@ -114,16 +116,16 @@ class _MyHomePageState extends State<MyHomePage> {
               name: 'Paracetamol',
               startTime: const TimeOfDay(hour: 12, minute: 0),
               repeatDelay: const TimeOfDay(hour: 2, minute: 30),
-              color: Colors.blue,
-              dosage: Dosage(750, 'mg'),
+              color: colorToInt(Colors.blue),
+              dosage: Dosage(value: 750, unit: 'mg'),
             )),
             MedicationCard(
                 medication: Medication(
               name: 'Ibuprofeno',
               startTime: const TimeOfDay(hour: 8, minute: 0),
               repeatDelay: const TimeOfDay(hour: 0, minute: 30),
-              color: Colors.green,
-              dosage: Dosage(400, 'mg'),
+              color: colorToInt(Colors.green),
+              dosage: Dosage(value: 750, unit: 'mg'),
             )),
           ],
         )),
@@ -138,6 +140,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+Color intToColor(int value) {
+  return Color(value);
+}
+
+int colorToInt(Color color) {
+  return color.value;
+}
+
 class MedicationCard extends StatelessWidget {
   final Medication medication;
 
@@ -145,13 +155,14 @@ class MedicationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TimeOfDay emptyTime = TimeOfDay(hour: 0, minute: 0);
     return ListCard(
-      cardColor: medication.color,
+      cardColor: intToColor(medication.color ?? 000),
       cardIcon: Icons.medication_rounded,
-      medicationTitle: medication.name,
-      medicationDose: medication.dosage,
-      medicationFrequency: "a cada ${formatTimeOfDay(medication.startTime)}",
-      medicationNextDose: medication.repeatDelay,
+      medicationTitle: medication.name ?? "Desconhecido",
+      medicationDose: medication.dosage ?? Dosage(),
+      medicationFrequency: "a cada ${formatTimeOfDay(medication.startTime ?? emptyTime)}",
+      medicationNextDose: medication.repeatDelay ?? emptyTime,
     );
   }
 }

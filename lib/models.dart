@@ -1,27 +1,101 @@
 import 'package:flutter/material.dart';
 
-class Medication {
-String name;
-TimeOfDay startTime;
-TimeOfDay repeatDelay;
-Color color;
-Dosage dosage;
+class Medications {
+  List<Medications>? medications;
 
-Medication({
-  required this.name,
-  required this.startTime,
-  required this.repeatDelay,
-  required this.color,
-  required this.dosage,
-});
+  Medications({this.medications});
+
+  Medications.fromJson(Map<String, dynamic> json) {
+    if (json['medications'] != null) {
+      medications = <Medications>[];
+      json['medications'].forEach((v) {
+        medications!.add(Medications.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (medications != null) {
+      data['medications'] = medications!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
+
+class Medication {
+  String? name;
+  TimeOfDay? startTime;
+  TimeOfDay? repeatDelay;
+  int? color;
+  Dosage? dosage;
+
+  Medication({
+    this.name,
+    this.startTime,
+    this.repeatDelay,
+    this.color,
+    this.dosage,
+  });
+
+  Medication.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    startTime = _convertStringToTimeOfDay(json['startTime']);
+    repeatDelay = _convertStringToTimeOfDay(json['repeatDelay']);
+    color = json['color'];
+    dosage = json['dosage'] != null ? Dosage.fromJson(json['dosage']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['startTime'] = _convertTimeOfDayToString(startTime);
+    data['repeatDelay'] = _convertTimeOfDayToString(repeatDelay);
+    data['color'] = color;
+    if (dosage != null) {
+      data['dosage'] = dosage!.toJson();
+    }
+    return data;
+  }
+
+  TimeOfDay _convertStringToTimeOfDay(String? timeString) {
+    if (timeString == null) {
+      return TimeOfDay.now();
+    }
+    final parts = timeString.split(':');
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  String _convertTimeOfDayToString(TimeOfDay? timeOfDay) {
+    if (timeOfDay == null) {
+      return '';
+    }
+    return '${timeOfDay.hour}:${timeOfDay.minute}';
+  }
+}
+
 
 class Dosage {
-  double quantity;
-  String unit;
+  int? value;
+  String? unit;
 
-  Dosage(this.quantity, this.unit);
+  Dosage({this.value, this.unit});
+
+  Dosage.fromJson(Map<String, dynamic> json) {
+    value = json['value'];
+    unit = json['unit'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['value'] = value;
+    data['unit'] = unit;
+    return data;
+  }
 }
+
 
 class Todo {
   final int userId;
