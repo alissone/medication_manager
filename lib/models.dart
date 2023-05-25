@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
 class Medications {
-  List<Medications>? medications;
+  List<Medication>? medications;
 
   Medications({this.medications});
 
   Medications.fromJson(Map<String, dynamic> json) {
     if (json['medications'] != null) {
-      medications = <Medications>[];
+      medications = <Medication>[];
       json['medications'].forEach((v) {
-        medications!.add(Medications.fromJson(v));
+        medications!.add(Medication.fromJson(v));
       });
     }
+  }
+
+  List<Medication> toList() {
+    return medications ?? <Medication>[];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,10 +44,22 @@ class Medication {
 
   Medication.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    startTime = _convertStringToTimeOfDay(json['startTime']);
-    repeatDelay = _convertStringToTimeOfDay(json['repeatDelay']);
-    color = json['color'];
-    dosage = json['dosage'] != null ? Dosage.fromJson(json['dosage']) : null;
+    String? startTimeString = json['startTime'];
+    String? repeatDelayString = json['repeatDelay'];
+    int? colorInt = json['color'];
+    dynamic dosageJson = json['dosage'];
+
+    print('name: $name');
+    print('startTimeString: $startTimeString');
+    print('repeatDelayString: $repeatDelayString');
+    print('colorInt: $colorInt');
+    print('dosageJson: $dosageJson');
+
+    startTime = _convertStringToTimeOfDay(startTimeString);
+    repeatDelay = _convertStringToTimeOfDay(repeatDelayString);
+    color = colorInt;
+    dosage = dosageJson != null ? Dosage.fromJson(dosageJson) : null;
+
   }
 
   Map<String, dynamic> toJson() {
@@ -59,13 +75,8 @@ class Medication {
   }
 
   TimeOfDay _convertStringToTimeOfDay(String? timeString) {
-    if (timeString == null) {
-      return TimeOfDay.now();
-    }
-    final parts = timeString.split(':');
-    final hour = int.parse(parts[0]);
-    final minute = int.parse(parts[1]);
-    return TimeOfDay(hour: hour, minute: minute);
+    DateTime dateTime = DateTime.parse(timeString ?? "").toLocal();
+    return TimeOfDay.fromDateTime(dateTime);
   }
 
   String _convertTimeOfDayToString(TimeOfDay? timeOfDay) {
@@ -122,4 +133,11 @@ class Todo {
       completed: completed,
     );
   }
+}
+
+class Example {
+  static const ex = """
+  Example JSON:
+  {"medications":[{"name":"Aspirin","startTime":"2023-05-25T08:00:00Z","repeatDelay":"2023-05-25T12:00:00Z","color":16711680,"dosage":{"value":400,"unit":"mg"}},{"name":"Lipitor","startTime":"2023-05-25T10:30:00Z","repeatDelay":"2023-05-25T18:30:00Z","color":65280,"dosage":{"value":400,"unit":"mg"}},{"name":"Metformin","startTime":"2023-05-25T13:15:00Z","repeatDelay":"2023-05-25T21:15:00Z","color":16776960,"dosage":{"value":400,"unit":"mg"}},{"name":"Synthroid","startTime":"2023-05-25T16:45:00Z","repeatDelay":"2023-05-26T00:45:00Z","color":255,"dosage":{"value":400,"unit":"mg"}},{"name":"Zantac","startTime":"2023-05-25T20:00:00Z","repeatDelay":"2023-05-26T04:00:00Z","color":16711935,"dosage":{"value":400,"unit":"mg"}}]}
+  """;
 }

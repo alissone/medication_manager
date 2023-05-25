@@ -11,7 +11,7 @@ import 'package:medication_manager/models.dart';
 import 'package:medication_manager/time_tools.dart';
 
 void main() {
-  Get.put(MyController());
+  Get.put(MedicamentosController());
   runApp(const MyApp());
 }
 
@@ -33,25 +33,26 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
   String title;
-  final String apiUrl = 'https://jsonplaceholder.typicode.com/todos/1';
-  final controller = Get.find<MyController>();
+  final String apiUrl = 'https://mocki.io/v1/f10c3b57-6c81-4942-8de0-c454f7b4f3ea';
+  final medicamentosController = Get.find<MedicamentosController>();
 
   void fetchData() async {
     final response = await http.get(Uri.parse(apiUrl));
-    updateText("Loading...");
+    // updateText("Loading...");
 
     if (response.statusCode == 200) {
       final jsonMap = json.decode(response.body);
-      final todo = Todo.fromJson(jsonMap);
-      updateText(todo.title);
+      final todo = Medications.fromJson(jsonMap);
+      updateText(todo.toList());
     } else {
       print("Failure...");
     }
   }
 
-  void updateText(String text) {
-    print("Updating to $text");
-    controller.updateTitle(Todo.fromJson({'title': text}));
+  void updateText(List<Medication>? medicationsList) {
+    print("Updating to $medicationsList");
+    medicamentosController.updateTitle(medicationsList ?? <Medication>[]);
+    medicamentosController.updateMedications(medicationsList ?? <Medication>[]);
   }
 
   Widget _buildPopupDialog(BuildContext context) {
@@ -73,13 +74,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late MyController controller;
+  late MedicamentosController controller;
 
 
   @override
   void initState() {
     super.initState();
-    controller = Get.find<MyController>(); // Retrieve the registered instance of MyController
+    controller = Get.find<MedicamentosController>(); // Retrieve the registered instance of MyController
     print("Controller:");
     print(controller.toString());
     print("Controller.");
@@ -99,8 +100,41 @@ class _MyHomePageState extends State<MyHomePage> {
     var cardIcon = Icons.medication_rounded;
     var title = widget.title;
 
-    return GetBuilder<MyController>(
-      init: MyController(),
+    return GetBuilder<MedicamentosController>(
+      init: MedicamentosController(),
+      builder: (controller) => Scaffold(
+        appBar: AppBar(
+          title: Text("teste"),
+        ),
+        body: Center(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: controller.medications.length,
+            itemBuilder: (context, index) {
+              Medication medication = controller.medications[index];
+              return Column(
+                children: [
+                  MedicationCard(medication: controller.medications[index]),
+                  Obx(() =>
+                      Text(controller.title.value)
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: widget.fetchData,
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        ),
+      ),
+    );
+
+
+
+    return GetBuilder<MedicamentosController>(
+      init: MedicamentosController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
           title: Text("teste"),
@@ -117,14 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
               startTime: const TimeOfDay(hour: 12, minute: 0),
               repeatDelay: const TimeOfDay(hour: 2, minute: 30),
               color: colorToInt(Colors.blue),
-              dosage: Dosage(value: 750, unit: 'mg'),
-            )),
-            MedicationCard(
-                medication: Medication(
-              name: 'Ibuprofeno',
-              startTime: const TimeOfDay(hour: 8, minute: 0),
-              repeatDelay: const TimeOfDay(hour: 0, minute: 30),
-              color: colorToInt(Colors.green),
               dosage: Dosage(value: 750, unit: 'mg'),
             )),
           ],
