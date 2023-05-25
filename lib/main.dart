@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
   String title;
   final String apiUrl = 'https://jsonplaceholder.typicode.com/todos/1';
-  final controller = MyController();
+  final controller = Get.find<MyController>();
 
   void fetchData() async {
     final response = await http.get(Uri.parse(apiUrl));
