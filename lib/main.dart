@@ -11,6 +11,7 @@ import 'package:medication_manager/models.dart';
 import 'package:medication_manager/time_tools.dart';
 
 void main() {
+  Get.put(MyController());
   runApp(const MyApp());
 }
 
@@ -29,7 +30,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
   String title;
@@ -37,15 +37,10 @@ class MyHomePage extends StatefulWidget {
   final controller = MyController();
 
   void fetchData() async {
-    print("Fetching data...");
     final response = await http.get(Uri.parse(apiUrl));
     if (response.statusCode == 200) {
-      print("Success...");
       final jsonMap = json.decode(response.body);
       final todo = Todo.fromJson(jsonMap);
-      print(jsonMap.toString());
-      print(response.body);
-      print(todo.title);
       updateText(todo.title);
     } else {
       print("Failure...");
@@ -53,7 +48,7 @@ class MyHomePage extends StatefulWidget {
   }
 
   void updateText(String text) {
-    print(text);
+    print("Updating to $text");
     controller.updateTitle(Todo.fromJson({'title': text}));
   }
 
@@ -76,6 +71,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late MyController controller;
+
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.find<MyController>(); // Retrieve the registered instance of MyController
+    print("Controller:");
+    print(controller.toString());
+    print("Controller.");
+  }
+
   void _incrementCounter() {
     setState(() {
       showDialog(
@@ -94,22 +101,22 @@ class _MyHomePageState extends State<MyHomePage> {
       init: MyController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
-          title: Obx(() => Text(controller.title.value)),
+          title: Text("teste"),
         ),
         body: Center(
             child: ListView(
           shrinkWrap: true,
           // Ensures the ListView takes only the necessary space
           children: <Widget>[
+            Obx(() => Text(controller.title.value)),
             MedicationCard(
-              medication: Medication(
-                name: 'Paracetamol',
-                startTime: const TimeOfDay(hour: 12, minute: 0),
-                repeatDelay: const TimeOfDay(hour: 2, minute: 30),
-                color: Colors.blue,
-                dosage: Dosage(750, 'mg'),
-              )
-            ),
+                medication: Medication(
+              name: 'Paracetamol',
+              startTime: const TimeOfDay(hour: 12, minute: 0),
+              repeatDelay: const TimeOfDay(hour: 2, minute: 30),
+              color: Colors.blue,
+              dosage: Dosage(750, 'mg'),
+            )),
             MedicationCard(
                 medication: Medication(
               name: 'Ibuprofeno',
