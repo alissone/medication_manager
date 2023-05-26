@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:medication_manager/colors.dart';
+import 'package:medication_manager/extensions.dart';
 import 'package:medication_manager/medication_card_widget.dart';
 import 'package:medication_manager/medication_controller.dart';
 import 'package:medication_manager/medication_form_widget.dart';
@@ -33,19 +34,22 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
   String title;
-  final String apiUrl = 'https://mocki.io/v1/f10c3b57-6c81-4942-8de0-c454f7b4f3ea';
+  final String apiUrl = 'https://mocki.io/v1/97a93986-a029-409c-bddd-613e59de2084';
   final medicamentosController = Get.find<MedicamentosController>();
 
   void fetchData() async {
     final response = await http.get(Uri.parse(apiUrl));
     // updateText("Loading...");
+    medicamentosController.startLoading();
 
     if (response.statusCode == 200) {
       final jsonMap = json.decode(response.body);
       final todo = Medications.fromJson(jsonMap);
       updateText(todo.toList());
+      medicamentosController.stopLoading();
     } else {
       print("Failure...");
+      medicamentosController.stopLoading();
     }
   }
 
@@ -104,15 +108,17 @@ class _MyHomePageState extends State<MyHomePage> {
       init: MedicamentosController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
-          title: Text("teste"),
+          title: Text("Meus Medicamentos"),
         ),
         body: Center(
           child: ListView.builder(
             shrinkWrap: true,
             itemCount: controller.medications.length,
             itemBuilder: (context, index) {
-              Medication medication = controller.medications[index];
-              return Column(
+              return
+
+              controller.isLoading ? Container(color: Colors.pink, width: 200, height: 200,) :
+                Column(
                 children: [
                   MedicationCard(medication: controller.medications[index]),
                   Obx(() =>
@@ -130,60 +136,21 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-
-
-
-    return GetBuilder<MedicamentosController>(
-      init: MedicamentosController(),
-      builder: (controller) => Scaffold(
-        appBar: AppBar(
-          title: Text("teste"),
-        ),
-        body: Center(
-            child: ListView(
-          shrinkWrap: true,
-          // Ensures the ListView takes only the necessary space
-          children: <Widget>[
-            Obx(() => Text(controller.title.value)),
-            MedicationCard(
-                medication: Medication(
-              name: 'Paracetamol',
-              startTime: const TimeOfDay(hour: 12, minute: 0),
-              repeatDelay: const TimeOfDay(hour: 2, minute: 30),
-              color: colorToInt(Colors.blue),
-              dosage: Dosage(value: 750, unit: 'mg'),
-            )),
-          ],
-        )),
-        floatingActionButton: FloatingActionButton(
-          // onPressed: _incrementCounter,
-          onPressed: widget.fetchData,
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        ), // This trailing comma makes auto-formatting nicer for build methods.
-      ),
-    );
   }
-}
-
-Color intToColor(int value) {
-  return Color(value);
-}
-
-int colorToInt(Color color) {
-  return color.value;
 }
 
 class MedicationCard extends StatelessWidget {
   final Medication medication;
 
-  MedicationCard({required this.medication});
+  const MedicationCard({Key? key, required this.medication}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     TimeOfDay emptyTime = TimeOfDay(hour: 0, minute: 0);
+    final Color iconColor = HexColor.fromHex(medication.color ?? "000000");
+
     return ListCard(
-      cardColor: intToColor(medication.color ?? 000),
+      cardColor: iconColor,
       cardIcon: Icons.medication_rounded,
       medicationTitle: medication.name ?? "Desconhecido",
       medicationDose: medication.dosage ?? Dosage(),

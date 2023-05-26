@@ -31,7 +31,7 @@ class Medication {
   String? name;
   TimeOfDay? startTime;
   TimeOfDay? repeatDelay;
-  int? color;
+  String? color;
   Dosage? dosage;
 
   Medication({
@@ -42,24 +42,28 @@ class Medication {
     this.dosage,
   });
 
+  @override
+  String toString() {
+    return 'Medication(name: $name, startTime: $startTime, repeatDelay: $repeatDelay, color: $color, dosage: $dosage)';
+  }
+
   Medication.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     String? startTimeString = json['startTime'];
     String? repeatDelayString = json['repeatDelay'];
-    int? colorInt = json['color'];
+    String? colorString = json['color'];
     dynamic dosageJson = json['dosage'];
 
     print('name: $name');
     print('startTimeString: $startTimeString');
     print('repeatDelayString: $repeatDelayString');
-    print('colorInt: $colorInt');
+    print('colorInt: $colorString');
     print('dosageJson: $dosageJson');
 
     startTime = _convertStringToTimeOfDay(startTimeString);
     repeatDelay = _convertStringToTimeOfDay(repeatDelayString);
-    color = colorInt;
+    color = colorString;
     dosage = dosageJson != null ? Dosage.fromJson(dosageJson) : null;
-
   }
 
   Map<String, dynamic> toJson() {
@@ -107,35 +111,7 @@ class Dosage {
   }
 }
 
-
-class Todo {
-  final int userId;
-  final int id;
-  final String title;
-  final bool completed;
-
-  Todo(
-      {required this.userId,
-      required this.id,
-      required this.title,
-      required this.completed});
-
-  factory Todo.fromJson(Map<String, dynamic> json) {
-    final int userId = json['userId'] ?? 0;
-    final int id = json['id'] ?? 0;
-    final String title = json['title'] ?? "empty";
-    final bool completed = json['completed'] ?? false;
-
-    return Todo(
-      userId: userId,
-      id: id,
-      title: title,
-      completed: completed,
-    );
-  }
-}
-
-class Example {
+class Examples {
   static const ex = """
   Example JSON:
   {"medications":[{"name":"Aspirin","startTime":"2023-05-25T08:00:00Z","repeatDelay":"2023-05-25T12:00:00Z","color":16711680,"dosage":{"value":400,"unit":"mg"}},{"name":"Lipitor","startTime":"2023-05-25T10:30:00Z","repeatDelay":"2023-05-25T18:30:00Z","color":65280,"dosage":{"value":400,"unit":"mg"}},{"name":"Metformin","startTime":"2023-05-25T13:15:00Z","repeatDelay":"2023-05-25T21:15:00Z","color":16776960,"dosage":{"value":400,"unit":"mg"}},{"name":"Synthroid","startTime":"2023-05-25T16:45:00Z","repeatDelay":"2023-05-26T00:45:00Z","color":255,"dosage":{"value":400,"unit":"mg"}},{"name":"Zantac","startTime":"2023-05-25T20:00:00Z","repeatDelay":"2023-05-26T04:00:00Z","color":16711935,"dosage":{"value":400,"unit":"mg"}}]}
