@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medication_manager/colors.dart';
+import 'package:medication_manager/colors_list.dart';
 import 'package:medication_manager/models.dart';
 import 'package:medication_manager/text_styles.dart';
 import 'package:medication_manager/time_tools.dart';

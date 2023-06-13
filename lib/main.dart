@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:medication_manager/color_picker_widget.dart';
-import 'package:medication_manager/colors.dart';
+import 'package:medication_manager/colors_list.dart';
 import 'package:medication_manager/extensions.dart';
 import 'package:medication_manager/medication_card_widget.dart';
 import 'package:medication_manager/medication_controller.dart';
@@ -38,7 +38,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       MaterialApp(
-        home: Scaffold(
+          builder: (context, child) =>
+              MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
+          home: Scaffold(
           appBar: AppBar(
             title: Text('Color Chooser Example'),
           ),
@@ -46,7 +48,7 @@ class MyApp extends StatelessWidget {
             child: ColorChooser(),
           ),
         ),
-      );
+    );
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

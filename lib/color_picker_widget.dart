@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:medication_manager/medication_edit_widget.dart';
 import 'package:medication_manager/medication_repository.dart';
 
 class ColorChooser extends StatefulWidget {
@@ -63,9 +64,16 @@ class _ColorChooserState extends State<ColorChooser> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2025),
+        );
         showDialog(
           context: context,
           builder: (BuildContext context) {
+            return MedicationEditScreen();
             return Dialog(
               child: Container(
                 padding: EdgeInsets.all(32.0),
