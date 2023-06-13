@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:medication_manager/medication_repository.dart';
 
 class ColorChooser extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class _ColorChooserState extends State<ColorChooser> {
 
   static const userId = "testuser";
   var medicationId = "1";
+  var medicationsRepository = MedicationRepository();
 
   Future<void> _setCounter(String counter) async {
     FirebaseFirestore.instance.doc(docPath).set({'value': counter});
@@ -27,7 +29,7 @@ class _ColorChooserState extends State<ColorChooser> {
   Future<void> setUserMedication(String userId, String medicationId) async {
      var input = {
       'id': medicationId,
-      'name': 'Paracetamol',
+      'name': 'Ibuprofeno',
       'startTime': "2023-05-25T12:00:00Z",
       'repeatDelay': "2023-05-25T12:00:00Z",
       'color': "MaterialAccentColor(primary value: Color(0xffff5252))",
@@ -35,9 +37,9 @@ class _ColorChooserState extends State<ColorChooser> {
       'value': 100,
       'unit': 'mg',
     };
-     FirebaseFirestore.instance.collection("users").doc("$userId").collection("medications").doc("$medicationId").set(input);
-     // FirebaseFirestore.instance.collection("users").doc("$userId/$medicationId").set(input);
-    // FirebaseFirestore.instance.doc("users/testuser/$medicationId").set(input);
+     // medicationsRepository.createMedication(userId, medicationId, input);
+     // medicationsRepository.updateMedication(userId, "1686684269733000", input);
+     // medicationsRepository.deleteMedication(userId, "1686683447133000");
   }
 
   Color selectedColor = Colors.amberAccent;
