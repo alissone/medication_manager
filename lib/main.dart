@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:medication_manager/color_picker_widget.dart';
 import 'package:medication_manager/colors.dart';
 import 'package:medication_manager/extensions.dart';
 import 'package:medication_manager/medication_card_widget.dart';
@@ -11,7 +12,21 @@ import 'package:medication_manager/medication_form_widget.dart';
 import 'package:medication_manager/models.dart';
 import 'package:medication_manager/time_tools.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:medication_manager/firebase_options.dart';
+
+Future<void> setupEmulators() async {
+  // Uncomment this to use the local emulator
+  // FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  setupEmulators();
+
   Get.put(MedicamentosController());
   runApp(const MyApp());
 }
@@ -21,12 +36,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return
+      MaterialApp(
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text('Color Chooser Example'),
+          ),
+          body: Center(
+            child: ColorChooser(),
+          ),
+        ),
+      );
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: AppColors.appColor,
       ),
-      home: MyHomePage(title: 'Medicamentos'),
+      // home: MyHomePage(title: 'Medicamentos'),
+      home: Text("Hello world!"),
     );
   }
 }
