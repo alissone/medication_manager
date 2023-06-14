@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:medication_manager/color_picker_widget.dart';
 import 'package:medication_manager/colors_list.dart';
 import 'package:medication_manager/extensions.dart';
+import 'package:medication_manager/login_page.dart';
 import 'package:medication_manager/medication_card_widget.dart';
 import 'package:medication_manager/medication_controller.dart';
 import 'package:medication_manager/medication_form_widget.dart';
@@ -15,7 +16,6 @@ import 'package:medication_manager/time_tools.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:medication_manager/firebase_options.dart';
-import 'package:medication_manager/welcome_page.dart';
 
 Future<void> setupEmulators() async {
   // Uncomment this to use the local emulator
