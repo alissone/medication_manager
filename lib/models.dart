@@ -78,6 +78,16 @@ class Medication {
     return data;
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'startTime': _convertTimeOfDayToString(startTime),
+      'repeatDelay': _convertTimeOfDayToString(repeatDelay),
+      'color': color,
+      'dosage': dosage?.toMap(),
+    };
+  }
+
   TimeOfDay _convertStringToTimeOfDay(String? timeString) {
     DateTime dateTime = DateTime.parse(timeString ?? "").toLocal();
     return TimeOfDay.fromDateTime(dateTime);
@@ -108,6 +118,13 @@ class Dosage {
     data['value'] = value;
     data['unit'] = unit;
     return data;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'value': value,
+      'unit': unit,
+    };
   }
 }
 

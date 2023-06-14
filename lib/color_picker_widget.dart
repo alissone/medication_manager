@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:medication_manager/medication_edit_widget.dart';
 import 'package:medication_manager/medication_repository.dart';
 
+import 'models.dart';
+
 class ColorChooser extends StatefulWidget {
   @override
   _ColorChooserState createState() => _ColorChooserState();
@@ -38,7 +40,20 @@ class _ColorChooserState extends State<ColorChooser> {
       'value': 100,
       'unit': 'mg',
     };
-     // medicationsRepository.createMedication(userId, medicationId, input);
+
+     Medication med = Medication(
+         name:"Aspirin",
+         startTime: TimeOfDay(hour: 12, minute: 00),
+         repeatDelay: TimeOfDay(hour: 4, minute: 00),
+         color: "16711680",
+         dosage: Dosage( value: 400, unit: "mg")
+     );
+
+      var medicationMap = med.toMap();
+
+    medicationsRepository.createMedication(userId, medicationId, medicationMap);
+
+    // medicationsRepository.createMedication(userId, medicationId, input);
      // medicationsRepository.updateMedication(userId, "1686684269733000", input);
      // medicationsRepository.deleteMedication(userId, "1686683447133000");
   }

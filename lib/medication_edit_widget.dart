@@ -93,7 +93,7 @@ class FormPage extends StatelessWidget {
         header: const Padding(
           padding: EdgeInsets.all(12.0),
           child: Text(
-            'Form Example Section',
+            'Adicionar um novo medicamento (mudar isso pra editar)',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ),
@@ -108,10 +108,11 @@ class FormPage extends StatelessWidget {
             labelText: 'Período',
             firstDate: DateTime(2023),
             lastDate: DateTime(2040),
+            helperText: 'Pressione o ícone para abrir o calendário',
           ),
           FastTimePicker(
             name: 'time_picker',
-            labelText: 'Horario inicial',
+            labelText: 'Horário inicial',
             initialEntryMode: TimePickerEntryMode.inputOnly,
             initialValue: TimeOfDay.fromDateTime(DateTime.now()),
           ),
@@ -142,14 +143,14 @@ class FormPage extends StatelessWidget {
           ),
           FastSlider(
             name: 'slider',
-            labelText: 'Slider',
-            helperText: 'A Slider with prefix and suffix widgets',
+            labelText: 'Urgência',
+            helperText: 'O sistema irá priorizar medicamentos com maior urgência',
             min: 0,
             max: 10,
             prefixBuilder: (field) {
               final enabled = field.widget.enabled;
               return IconButton(
-                icon: const Icon(Icons.volume_off),
+                icon: const Icon(Icons.circle_outlined),
                 onPressed:
                     enabled ? () => field.didChange(field.widget.min) : null,
               );
@@ -157,22 +158,12 @@ class FormPage extends StatelessWidget {
             suffixBuilder: (field) {
               final enabled = field.widget.enabled;
               return IconButton(
-                icon: const Icon(Icons.volume_up),
+                icon: const Icon(Icons.circle_rounded),
                 onPressed:
                     enabled ? () => field.didChange(field.widget.max) : null,
               );
             },
-            validator: (value) => value! > 8 ? 'Volume is too high' : null,
-          ),
-          FastRangeSlider(
-            name: 'range_slider',
-            labelText: 'Range Slider',
-            min: 0,
-            max: 10,
-            divisions: 10,
-            labelsBuilder: rangeSliderLabelsBuilder,
-            prefixBuilder: rangeSliderPrefixBuilder,
-            suffixBuilder: rangeSliderSuffixBuilder,
+            validator: (value) => value! > 9 ? 'Prioridade Maxima' : null,
           ),
         ],
       ),
