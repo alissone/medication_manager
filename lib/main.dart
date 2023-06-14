@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:medication_manager/color_picker_widget.dart';
 import 'package:medication_manager/colors_list.dart';
@@ -14,6 +15,7 @@ import 'package:medication_manager/time_tools.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:medication_manager/firebase_options.dart';
+import 'package:medication_manager/welcome_page.dart';
 
 Future<void> setupEmulators() async {
   // Uncomment this to use the local emulator
@@ -41,11 +43,14 @@ class MyApp extends StatelessWidget {
           builder: (context, child) =>
               MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
           home: Scaffold(
-          appBar: AppBar(
-            title: Text('Color Chooser Example'),
-          ),
           body: Center(
-            child: ColorChooser(),
+            child: LoginPage(),
+          ),
+        ),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          textTheme: GoogleFonts.nunitoTextTheme(
+            Theme.of(context).textTheme,
           ),
         ),
     );
