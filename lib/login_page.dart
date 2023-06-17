@@ -2,6 +2,37 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+class CustomBackButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              Text(
+                "Voltar",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -100,6 +131,9 @@ class LoginPage extends StatelessWidget {
                       // Password Field
                       SizedBox(
                         child: TextField(
+                          obscureText: true,
+                          enableSuggestions: false,
+                          autocorrect: false,
                           style: const TextStyle(
                             color: Colors.blue,
                             fontSize: 18,
@@ -158,6 +192,7 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                 ),
+                CustomBackButton(),
                 const Spacer(),
               ],
             ),

@@ -5,12 +5,12 @@ import 'package:medication_manager/medication_repository.dart';
 
 import 'models.dart';
 
-class ColorChooser extends StatefulWidget {
+class MedicationFirebaseScreen extends StatefulWidget {
   @override
-  _ColorChooserState createState() => _ColorChooserState();
+  _MedicationFirebaseScreenState createState() => _MedicationFirebaseScreenState();
 }
 
-class _ColorChooserState extends State<ColorChooser> {
+class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
   static const docPath = 'counters/1';
 
   static const userId = "testuser";
@@ -51,7 +51,8 @@ class _ColorChooserState extends State<ColorChooser> {
 
       var medicationMap = med.toMap();
 
-    medicationsRepository.createMedication(userId, medicationId, medicationMap);
+    // medicationsRepository.createMedication(userId, medicationId, medicationMap);
+     medicationsRepository.fetchAllMedications(userId);
 
     // medicationsRepository.createMedication(userId, medicationId, input);
      // medicationsRepository.updateMedication(userId, "1686684269733000", input);

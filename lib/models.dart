@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:medication_manager/extensions.dart';
 
 class Medications {
   List<Medication>? medications;
@@ -67,11 +69,12 @@ class Medication {
   }
 
   Map<String, dynamic> toJson() {
+    Color myColor = HexColor.fromHex(color ?? "");
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['startTime'] = _convertTimeOfDayToString(startTime);
     data['repeatDelay'] = _convertTimeOfDayToString(repeatDelay);
-    data['color'] = color;
+    data['color'] = myColor.toHex();
     if (dosage != null) {
       data['dosage'] = dosage!.toJson();
     }
@@ -79,13 +82,22 @@ class Medication {
   }
 
   Map<String, dynamic> toMap() {
+    Color myColor = HexColor.fromHex(color ?? "");
     return {
       'name': name,
       'startTime': _convertTimeOfDayToString(startTime),
       'repeatDelay': _convertTimeOfDayToString(repeatDelay),
-      'color': color,
+      'color': myColor.toHex(),
       'dosage': dosage?.toMap(),
     };
+  }
+
+  Medication.fromMap(Map<String, dynamic> map) {
+    name = map['name'];
+    startTime = TimeOfDay.fromDateTime(DateTime.parse(map['startTime']));
+    repeatDelay = TimeOfDay.fromDateTime(DateTime.parse(map['repeatDelay']));
+    color = map['color'];
+    dosage = Dosage(unit: map['dosage']['unit'], value: map['dosage']['value']);
   }
 
   TimeOfDay _convertStringToTimeOfDay(String? timeString) {
