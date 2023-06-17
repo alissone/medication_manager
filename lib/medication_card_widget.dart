@@ -33,7 +33,7 @@ class ListCard extends StatelessWidget {
         },
         child: SizedBox(
           width: 300,
-          height: 80,
+          height: 95,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -41,7 +41,7 @@ class ListCard extends StatelessWidget {
                 width: 60,
                 height: 60,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 4),
                   child: Icon(
                     cardIcon,
                     size: 60,
@@ -50,7 +50,7 @@ class ListCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

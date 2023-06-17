@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:medication_manager/login_page.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
@@ -78,7 +79,7 @@ class WelcomePage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            // Add your create account button logic here
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
@@ -104,7 +105,7 @@ class WelcomePage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            // Add your create account button logic here
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,

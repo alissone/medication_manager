@@ -172,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return
 
               controller.isLoading ? Container(color: Colors.pink, width: 200, height: 200,) :
-                Column(
+                Wrap(
                 children: [
                   MedicationCard(medication: controller.medications[index]),
                   Obx(() =>
@@ -203,13 +203,19 @@ class MedicationCard extends StatelessWidget {
     TimeOfDay emptyTime = TimeOfDay(hour: 0, minute: 0);
     final Color iconColor = HexColor.fromHex(medication.color ?? "000000");
 
-    return ListCard(
-      cardColor: iconColor,
-      cardIcon: Icons.medication_rounded,
-      medicationTitle: medication.name ?? "Desconhecido",
-      medicationDose: medication.dosage ?? Dosage(),
-      medicationFrequency: "a cada ${formatTimeOfDay(medication.startTime ?? emptyTime)}",
-      medicationNextDose: medication.repeatDelay ?? emptyTime,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: ListCard(
+          cardColor: iconColor,
+          cardIcon: Icons.medication_rounded,
+          medicationTitle: medication.name ?? "Desconhecido",
+          medicationDose: medication.dosage ?? Dosage(),
+          medicationFrequency: "a cada ${formatTimeOfDay(medication.startTime ?? emptyTime)}",
+          medicationNextDose: medication.repeatDelay ?? emptyTime,
+        ),
+      ),
     );
   }
 }
