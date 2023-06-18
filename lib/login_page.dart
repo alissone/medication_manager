@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:medication_manager/extensions.dart';
 
 class CustomBackButton extends StatelessWidget {
   @override
@@ -34,6 +35,8 @@ class CustomBackButton extends StatelessWidget {
 }
 
 class LoginPage extends StatelessWidget {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,104 +95,112 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 48),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      // E-mail field
-                      SizedBox(
-                        child: TextField(
-                          style: const TextStyle(
-                            color: Colors.blue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w300,
-                            height: 1.8,
-                          ),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[200],
-                            hintText: 'Email',
-                            hintStyle: const TextStyle(color: Colors.grey),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0,
-                              horizontal: 16.0,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        // E-mail field
+                        SizedBox(
+                          child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: (input) =>
+                                input!.isValidEmail() ? null : 'Email invalido',
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                              height: 1.8,
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide:
-                                  const BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: const BorderSide(
-                                  color: Colors.blue, width: 3.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16
-                      ),
-                      // Password Field
-                      SizedBox(
-                        child: TextField(
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          style: const TextStyle(
-                            color: Colors.blue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w200,
-                            height: 1.8,
-                          ),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.grey[200],
-                            hintText: 'Senha',
-                            hintStyle: const TextStyle(color: Colors.grey),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0,
-                              horizontal: 16.0,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide:
-                              const BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: const BorderSide(
-                                  color: Colors.blue, width: 3.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                          height: 64
-                      ),
-                      // Login Button
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Add your create account button logic here
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16.0),
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 18,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              hintText: 'Email',
+                              hintStyle: const TextStyle(color: Colors.grey),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 16.0,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide:
+                                    const BorderSide(color: Colors.transparent),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.blue, width: 3.0),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 3.0),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        // Password Field
+                        SizedBox(
+                          child: TextField(
+                            obscureText: true,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w200,
+                              height: 1.8,
+                            ),
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              hintText: 'Senha',
+                              hintStyle: const TextStyle(color: Colors.grey),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 16.0,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide:
+                                    const BorderSide(color: Colors.transparent),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.blue, width: 3.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 64),
+                        // Login Button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Add your create account button logic here
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16.0),
+                              child: Text(
+                                'Login',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 CustomBackButton(),
