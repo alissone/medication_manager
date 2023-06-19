@@ -3,6 +3,8 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_fast_forms/flutter_fast_forms.dart';
 import 'package:get/get.dart';
+import 'package:medication_manager/Login/user_controller.dart';
+import 'package:medication_manager/Medication/medication_repository.dart';
 import 'package:medication_manager/Utils/medication_names_list.dart';
 import 'package:medication_manager/models.dart';
 
@@ -12,7 +14,6 @@ class MedicationEditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const title = 'Medication Manager';
-
     return FormPage(title: title);
   }
 }
@@ -23,12 +24,15 @@ Medication getMedFromArgs(Map<String, dynamic>? getArguments) {
   emptyMed.dosage = emptyDosage;
 
   if (getArguments == null) {
+    emptyMed.id = MedicationRepository.generateId();
     return emptyMed;
   }
 
   if (getArguments.containsKey('medication')) {
     return getArguments['medication'];
   }
+
+  emptyMed.id = MedicationRepository.generateId();
   return emptyMed;
 }
 
@@ -38,6 +42,9 @@ class FormPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final String title;
   var currentMedication = getMedFromArgs(Get.arguments);
+
+  var medicationsRepository = MedicationRepository();
+  final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +93,13 @@ class FormPage extends StatelessWidget {
               ),
               ElevatedButton(
                 child: const Text('Salvar'),
-                onPressed: () {},
+                onPressed: () {
+                  var medicationMap = currentMedication.toMap();
+                  medicationsRepository.createMedication(
+                      userController.getCurrentUserName(),
+                      currentMedication.id ?? 0,
+                      medicationMap);
+                },
               ),
             ],
           ),
@@ -96,7 +109,7 @@ class FormPage extends StatelessWidget {
   }
 
   List<Widget> _buildForm(BuildContext context, Medication currentMedication) {
-    final bool isEditing = (currentMedication.name != "");
+    final bool isEditing = (currentMedication.name != null);
 
     return [
       FastFormSection(
@@ -113,6 +126,9 @@ class FormPage extends StatelessWidget {
             name: 'autocomplete',
             labelText: 'Medicamento',
             options: MedicationDatabase.medicamentos,
+            onSelected: (selected) {
+              currentMedication.updateName(selected);
+            },
           ),
           FastDateRangePicker(
             name: 'date_range_picker',
@@ -183,16 +199,19 @@ class FormPage extends StatelessWidget {
   }
 
   String getNameFromAutocomplete(String search) {
-    return MedicationDatabase.medicamentos.firstWhere(
+    print("search string: $search");
+
+    final name = MedicationDatabase.medicamentos.firstWhere(
       (element) => element.startsWith(search),
       orElse: () => "",
     );
+    print("medication name: $name");
+    return name;
   }
 
   void updateMedicationFromFormFields(
       UnmodifiableMapView<String, dynamic> value) {
-    currentMedication
-        .updateName(getNameFromAutocomplete(value['autocomplete']));
+    // currentMedication .updateName(getNameFromAutocomplete(value['autocomplete']));
     currentMedication.updateStartTime(value['time_picker']);
     currentMedication.updateInterval(value['time_picker_end']);
     currentMedication.updateUnit(value['dropdown']);

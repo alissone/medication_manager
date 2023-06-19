@@ -29,6 +29,7 @@ class Medications {
 }
 
 class Medication {
+  int? id;
   String? name;
   TimeOfDay? startTime;
   TimeOfDay? repeatDelay;
@@ -36,6 +37,7 @@ class Medication {
   Dosage? dosage;
 
   Medication({
+    this.id,
     this.name,
     this.startTime,
     this.repeatDelay,
@@ -49,12 +51,14 @@ class Medication {
   }
 
   Medication.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     String? startTimeString = json['startTime'];
     String? repeatDelayString = json['repeatDelay'];
     String? colorString = json['color'];
     dynamic dosageJson = json['dosage'];
 
+    print('id: $id');
     print('name: $name');
     print('startTimeString: $startTimeString');
     print('repeatDelayString: $repeatDelayString');
@@ -70,6 +74,7 @@ class Medication {
   Map<String, dynamic> toJson() {
     Color myColor = HexColor.fromHex(color ?? "");
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['name'] = name;
     data['startTime'] = _convertTimeOfDayToString(startTime);
     data['repeatDelay'] = _convertTimeOfDayToString(repeatDelay);
@@ -83,6 +88,7 @@ class Medication {
   Map<String, dynamic> toMap() {
     Color myColor = HexColor.fromHex(color ?? "");
     return {
+      'id': id,
       'name': name,
       'startTime': _convertTimeOfDayToString(startTime),
       'repeatDelay': _convertTimeOfDayToString(repeatDelay),
@@ -92,6 +98,7 @@ class Medication {
   }
 
   Medication.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
     name = map['name'];
     startTime = TimeOfDay.fromDateTime(DateTime.parse(map['startTime']));
     repeatDelay = TimeOfDay.fromDateTime(DateTime.parse(map['repeatDelay']));

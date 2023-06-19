@@ -15,18 +15,12 @@ class MedicationFirebaseScreen extends StatefulWidget {
 }
 
 class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
-  var medicationId = "1";
   var medicationsRepository = MedicationRepository();
   final userController = Get.find<UserController>();
 
   // Future<void> _createUser(String userId) async {
   //   FirebaseFirestore.instance.doc("users").set({'username': userId});
   // }
-  String idGenerator() {
-    final now = DateTime.now();
-    return now.microsecondsSinceEpoch.toString();
-  }
-
   Future<void> setUserMedication(String medicationId) async {
     var input = {
       'id': medicationId,
@@ -53,8 +47,8 @@ class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
         .fetchAllMedications(userController.getCurrentUserName());
 
     // medicationsRepository.createMedication(userId, medicationId, input);
-     // medicationsRepository.updateMedication(userId, "1686684269733000", input);
-     // medicationsRepository.deleteMedication(userId, "1686683447133000");
+    // medicationsRepository.updateMedication(userId, "1686684269733000", input);
+    // medicationsRepository.deleteMedication(userId, "1686683447133000");
   }
 
   Color selectedColor = Colors.amberAccent;
@@ -109,7 +103,7 @@ class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
                           selectedColor = color;
                           // _setCounter(color.toString());
                           // _createUser(userId);
-                          medicationId = idGenerator();
+                          //medicationId = idGenerator();
                           // setUserMedication(userId, medicationId);
                         });
                       },
