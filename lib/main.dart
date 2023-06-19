@@ -78,14 +78,16 @@ class MedicationsListScreen extends StatefulWidget {
   void fetchData() async {
     var result = <Medication>[];
 
-    medicationsRepository.fetchAllMedications("testuser").then((list) => {
-          list.forEach((Map<String, dynamic> medication) {
-            // add to the list
-            result.add(Medication.fromMap(medication));
-          }),
-          print(result),
-          updateText(result),
-        });
+    medicationsRepository.fetchAllMedications("testuser").then(
+          (list) => {
+            list.forEach((Map<String, dynamic> medication) {
+              // add to the list
+              result.add(Medication.fromMap(medication));
+            }),
+            print(result),
+            updateText(result),
+          },
+        );
 
     medicamentosController.stopLoading();
 

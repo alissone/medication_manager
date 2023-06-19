@@ -19,6 +19,5 @@ class UserController extends GetxController {
   void updateUsername(String newUsername) {
     username.value = newUsername;
     update();
-    print(username.value);
   }
 }

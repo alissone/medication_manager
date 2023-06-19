@@ -119,8 +119,12 @@ class _LoginPageState extends State<LoginPage> {
                           child: TextFormField(
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
-                            validator: (input) =>
-                                input!.isValidEmail() ? null : 'Email inválido',
+                            validator: (input) {
+                              widget.userController.updateUsername(input ?? "");
+                              return input!.isValidEmail()
+                                  ? null
+                                  : 'Email inválido';
+                            },
                             style: const TextStyle(
                               color: Colors.blue,
                               fontSize: 18,
