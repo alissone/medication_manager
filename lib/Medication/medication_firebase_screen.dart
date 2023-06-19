@@ -1,25 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medication_manager/Login/user_controller.dart';
 import 'package:medication_manager/Medication/medication_edit_widget.dart';
 import 'package:medication_manager/Medication/medication_repository.dart';
 
 import '../models.dart';
 
 class MedicationFirebaseScreen extends StatefulWidget {
+  const MedicationFirebaseScreen({super.key});
+
   @override
-  _MedicationFirebaseScreenState createState() => _MedicationFirebaseScreenState();
+  _MedicationFirebaseScreenState createState() =>
+      _MedicationFirebaseScreenState();
 }
 
 class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
-  static const docPath = 'counters/1';
-
-  static const userId = "testuser";
   var medicationId = "1";
   var medicationsRepository = MedicationRepository();
-
-  Future<void> _setCounter(String counter) async {
-    FirebaseFirestore.instance.doc(docPath).set({'value': counter});
-  }
+  final userController = Get.find<UserController>();
 
   // Future<void> _createUser(String userId) async {
   //   FirebaseFirestore.instance.doc("users").set({'username': userId});
@@ -29,8 +27,8 @@ class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
     return now.microsecondsSinceEpoch.toString();
   }
 
-  Future<void> setUserMedication(String userId, String medicationId) async {
-     var input = {
+  Future<void> setUserMedication(String medicationId) async {
+    var input = {
       'id': medicationId,
       'name': 'Ibuprofeno',
       'startTime': "2023-05-25T12:00:00Z",
@@ -41,18 +39,18 @@ class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
       'unit': 'mg',
     };
 
-     Medication med = Medication(
-         name:"Aspirin",
-         startTime: TimeOfDay(hour: 12, minute: 00),
-         repeatDelay: TimeOfDay(hour: 4, minute: 00),
-         color: "16711680",
-         dosage: Dosage( value: 400, unit: "mg")
-     );
+    Medication med = Medication(
+        name: "Aspirin",
+        startTime: const TimeOfDay(hour: 12, minute: 00),
+        repeatDelay: const TimeOfDay(hour: 4, minute: 00),
+        color: "16711680",
+        dosage: Dosage(value: 400, unit: "mg"));
 
-      var medicationMap = med.toMap();
+    var medicationMap = med.toMap();
 
     // medicationsRepository.createMedication(userId, medicationId, medicationMap);
-     medicationsRepository.fetchAllMedications(userId);
+    medicationsRepository
+        .fetchAllMedications(userController.getCurrentUserName());
 
     // medicationsRepository.createMedication(userId, medicationId, input);
      // medicationsRepository.updateMedication(userId, "1686684269733000", input);
@@ -89,14 +87,14 @@ class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return MedicationEditScreen();
+            return const MedicationEditScreen();
             return Dialog(
               child: Container(
-                padding: EdgeInsets.all(32.0),
+                padding: const EdgeInsets.all(32.0),
                 child: GridView.builder(
                   shrinkWrap: true,
                   itemCount: colors.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: 32.0,
                     crossAxisSpacing: 32.0,
@@ -112,7 +110,7 @@ class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
                           // _setCounter(color.toString());
                           // _createUser(userId);
                           medicationId = idGenerator();
-                          setUserMedication(userId, medicationId);
+                          // setUserMedication(userId, medicationId);
                         });
                       },
                       child: Container(
@@ -148,7 +146,7 @@ class _MedicationFirebaseScreenState extends State<MedicationFirebaseScreen> {
           },
         );
       },
-      child: Text('Open Color Chooser'),
+      child: const Text('Open Color Chooser'),
     );
   }
 }

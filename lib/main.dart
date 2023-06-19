@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:medication_manager/Utils/colors_list.dart';
 import 'package:medication_manager/Utils/extensions.dart';
 import 'package:medication_manager/firebase_options.dart';
-import 'package:medication_manager/Medication/medication_card_widget.dart';
+import 'package:medication_manager/Medication/list_card_widget.dart';
 import 'package:medication_manager/Medication/medication_controller.dart';
 import 'package:medication_manager/medication_form_widget.dart';
 import 'package:medication_manager/Medication/medication_repository.dart';
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: AppColors.appColor,
       ),
       // home: MyHomePage(title: 'Medicamentos'),
-      home: Text("Hello world!"),
+      home: const Text("Hello world!"),
     );
   }
 }
@@ -74,17 +74,16 @@ class MedicationsListScreen extends StatefulWidget {
       'https://mocki.io/v1/97a93986-a029-409c-bddd-613e59de2084';
   final medicamentosController = Get.find<MedicamentosController>();
   final medicationsRepository = MedicationRepository();
+  final userController = Get.find<UserController>();
 
   void fetchData() async {
     var result = <Medication>[];
 
-    medicationsRepository.fetchAllMedications("testuser").then(
+    medicationsRepository.fetchAllMedications(userController.getCurrentUserName()).then(
           (list) => {
             list.forEach((Map<String, dynamic> medication) {
-              // add to the list
               result.add(Medication.fromMap(medication));
             }),
-            print(result),
             updateText(result),
           },
         );
@@ -107,7 +106,6 @@ class MedicationsListScreen extends StatefulWidget {
   }
 
   void updateText(List<Medication>? medicationsList) {
-    print("Updating to $medicationsList");
     medicamentosController.updateTitle(medicationsList ?? <Medication>[]);
     medicamentosController.updateMedications(medicationsList ?? <Medication>[]);
   }
@@ -138,9 +136,7 @@ class _MedicationsListScreenState extends State<MedicationsListScreen> {
   void initState() {
     super.initState();
     controller = Get.find<MedicamentosController>(); // Retrieve the registered instance of MyController
-    print("Controller:");
-    print(controller.toString());
-    print("Controller.");
+    widget.fetchData();
   }
 
   void _incrementCounter() {
@@ -154,14 +150,11 @@ class _MedicationsListScreenState extends State<MedicationsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var cardIcon = Icons.medication_rounded;
-    var title = widget.title;
-
     return GetBuilder<MedicamentosController>(
       init: MedicamentosController(),
       builder: (controller) => Scaffold(
         appBar: AppBar(
-          title: Text("Meus Medicamentos"),
+          title: const Text("Meus Medicamentos"),
         ),
         body: Center(
           child: ListView.builder(
@@ -183,7 +176,7 @@ class _MedicationsListScreenState extends State<MedicationsListScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: widget.fetchData,
+          onPressed: widget.fetchData, // TODO: Actually create a new one from here
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),
@@ -199,7 +192,7 @@ class MedicationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TimeOfDay emptyTime = TimeOfDay(hour: 0, minute: 0);
+    TimeOfDay emptyTime = const TimeOfDay(hour: 0, minute: 0);
     final Color iconColor = HexColor.fromHex(medication.color ?? "000000");
 
     return Padding(
