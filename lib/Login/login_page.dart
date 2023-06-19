@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medication_manager/extensions.dart';
+import 'package:medication_manager/Utils/extensions.dart';
 import 'package:medication_manager/main.dart';
-import 'package:medication_manager/user_controller.dart';
+import 'package:medication_manager/Login/user_controller.dart';
 
 class CustomBackButton extends StatelessWidget {
   @override

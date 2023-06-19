@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:medication_manager/medication_edit_widget.dart';
-import 'package:medication_manager/medication_repository.dart';
+import 'package:medication_manager/Medication/medication_edit_widget.dart';
+import 'package:medication_manager/Medication/medication_repository.dart';
 
-import 'models.dart';
+import '../models.dart';
 
 class MedicationFirebaseScreen extends StatefulWidget {
   @override

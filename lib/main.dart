@@ -2,17 +2,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medication_manager/colors_list.dart';
-import 'package:medication_manager/extensions.dart';
+import 'package:medication_manager/Utils/colors_list.dart';
+import 'package:medication_manager/Utils/extensions.dart';
 import 'package:medication_manager/firebase_options.dart';
-import 'package:medication_manager/medication_card_widget.dart';
-import 'package:medication_manager/medication_controller.dart';
+import 'package:medication_manager/Medication/medication_card_widget.dart';
+import 'package:medication_manager/Medication/medication_controller.dart';
 import 'package:medication_manager/medication_form_widget.dart';
-import 'package:medication_manager/medication_repository.dart';
+import 'package:medication_manager/Medication/medication_repository.dart';
 import 'package:medication_manager/models.dart';
-import 'package:medication_manager/time_tools.dart';
-import 'package:medication_manager/user_controller.dart';
-import 'package:medication_manager/welcome_page.dart';
+import 'package:medication_manager/Utils/time_tools.dart';
+import 'package:medication_manager/Login/user_controller.dart';
+import 'package:medication_manager/Home/welcome_page.dart';
 
 Future<void> setupEmulators() async {
   // Uncomment this to use the local emulator

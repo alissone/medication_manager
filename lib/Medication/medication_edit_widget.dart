@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fast_forms/flutter_fast_forms.dart';
-import 'package:medication_manager/medication_names_list.dart';
+import 'package:medication_manager/Utils/medication_names_list.dart';
 
 class MedicationEditScreen extends StatelessWidget {
   const MedicationEditScreen({super.key});

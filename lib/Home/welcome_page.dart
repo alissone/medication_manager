@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:medication_manager/login_page.dart';
+import 'package:medication_manager/Login/login_page.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
