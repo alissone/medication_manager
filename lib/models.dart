@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:medication_manager/Utils/extensions.dart';
 
 class Medications {
@@ -111,14 +110,50 @@ class Medication {
     }
     return '${timeOfDay.hour}:${timeOfDay.minute}';
   }
-}
 
+  void updateName(String newName) {
+    name = newName;
+  }
+
+  void updateStartDate(TimeOfDay newStartDate) {
+    print("new end date: $newStartDate");
+  }
+
+  void updateEndDate(TimeOfDay newEndDate) {
+    print("new end date: $newEndDate");
+  }
+
+  void updateStartTime(TimeOfDay newStartTime) {
+    startTime = newStartTime;
+  }
+
+  void updateInterval(TimeOfDay newInterval) {
+    repeatDelay = newInterval;
+  }
+
+  void updateUnit(String newUnit) {
+    dosage?.unit = newUnit;
+  }
+
+  void updateWeight(String newValue) {
+    dosage?.value = int.tryParse(newValue) ?? 0;
+  }
+
+  void updateUrgency(String urgency) {
+    print('new urgency $urgency');
+  }
+}
 
 class Dosage {
   int? value;
   String? unit;
 
   Dosage({this.value, this.unit});
+
+  @override
+  String toString() {
+    return 'Dosage(unit: $unit, value: $value)';
+  }
 
   Dosage.fromJson(Map<String, dynamic> json) {
     value = json['value'];
