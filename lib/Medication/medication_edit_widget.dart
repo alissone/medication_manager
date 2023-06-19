@@ -9,22 +9,7 @@ class MedicationEditScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const title = 'Medication Manager';
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: title,
-      themeMode: ThemeMode.light,
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        colorSchemeSeed: Colors.blue[200],
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        colorSchemeSeed: Colors.blue[700],
-      ),
-      home: FormPage(title: title),
-    );
+    return FormPage(title: title);
   }
 }
 
@@ -144,7 +129,8 @@ class FormPage extends StatelessWidget {
           FastSlider(
             name: 'slider',
             labelText: 'Urgência',
-            helperText: 'O sistema irá priorizar medicamentos com maior urgência',
+            helperText:
+                'O sistema irá priorizar medicamentos com maior urgência',
             min: 0,
             max: 10,
             prefixBuilder: (field) {

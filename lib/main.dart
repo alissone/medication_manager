@@ -2,29 +2,28 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medication_manager/Utils/colors_list.dart';
-import 'package:medication_manager/Utils/extensions.dart';
-import 'package:medication_manager/firebase_options.dart';
+import 'package:medication_manager/Home/welcome_page.dart';
+import 'package:medication_manager/Login/user_controller.dart';
 import 'package:medication_manager/Medication/list_card_widget.dart';
 import 'package:medication_manager/Medication/medication_controller.dart';
-import 'package:medication_manager/medication_form_widget.dart';
 import 'package:medication_manager/Medication/medication_repository.dart';
-import 'package:medication_manager/models.dart';
+import 'package:medication_manager/Utils/extensions.dart';
 import 'package:medication_manager/Utils/time_tools.dart';
-import 'package:medication_manager/Login/user_controller.dart';
-import 'package:medication_manager/Home/welcome_page.dart';
+import 'package:medication_manager/firebase_options.dart';
+import 'package:medication_manager/medication_form_widget.dart';
+import 'package:medication_manager/models.dart';
 
-Future<void> setupEmulators() async {
-  // Uncomment this to use the local emulator
-  // FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
-}
+// Uncomment this to use the local emulator
+// Future<void> setupEmulators() async {
+// FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  setupEmulators();
+  // setupEmulators();
 
   Get.put(MedicamentosController());
   Get.put(UserController());
@@ -44,9 +43,6 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: WelcomePage(),
-          // child: MyHomePage(
-          //   title: 'Inicio',
-          // ),
         ),
       ),
       theme: ThemeData(
@@ -55,14 +51,6 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-    );
-    return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: AppColors.appColor,
-      ),
-      // home: MyHomePage(title: 'Medicamentos'),
-      home: const Text("Hello world!"),
     );
   }
 }
@@ -139,15 +127,6 @@ class _MedicationsListScreenState extends State<MedicationsListScreen> {
     widget.fetchData();
   }
 
-  void _incrementCounter() {
-    setState(() {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => widget._buildPopupDialog(context),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MedicamentosController>(
@@ -176,7 +155,9 @@ class _MedicationsListScreenState extends State<MedicationsListScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: widget.fetchData, // TODO: Actually create a new one from here
+          onPressed: () {
+            Get.to(MedicationFormScreen());
+          },
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),

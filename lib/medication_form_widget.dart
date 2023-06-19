@@ -1,5 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:medication_manager/Medication/medication_edit_widget.dart';
+
+class MedicationFormScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+        child: child!,
+      ),
+      home: const Scaffold(
+        body: Center(
+          child: MedicationEditScreen(),
+          // child: Text("Hello World")
+        ),
+      ),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.nunitoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
+    );
+  }
+}
 
 class MedicationForm extends StatefulWidget {
   @override

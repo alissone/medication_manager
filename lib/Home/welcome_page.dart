@@ -79,7 +79,8 @@ class WelcomePage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => LoginPage()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
@@ -105,7 +106,8 @@ class WelcomePage extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => LoginPage()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
