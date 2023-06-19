@@ -1,7 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medication_manager/extensions.dart';
+import 'package:medication_manager/main.dart';
+import 'package:medication_manager/user_controller.dart';
 
 class CustomBackButton extends StatelessWidget {
   @override
@@ -34,8 +37,20 @@ class CustomBackButton extends StatelessWidget {
   }
 }
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+
+  final userController = Get.find<UserController>();
+}
+
+
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void updateUsername(String username) {
+    widget.userController.updateUsername(username);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +120,7 @@ class LoginPage extends StatelessWidget {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             validator: (input) =>
-                                input!.isValidEmail() ? null : 'Email invalido',
+                                input!.isValidEmail() ? null : 'Email inválido',
                             style: const TextStyle(
                               color: Colors.blue,
                               fontSize: 18,
@@ -180,7 +195,9 @@ class LoginPage extends StatelessWidget {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              // Add your create account button logic here
+                              Get.to(() => MedicationsListScreen(title: ''), arguments: [
+                                {"username": widget.userController.getCurrentUserName()},
+                              ]);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue,
