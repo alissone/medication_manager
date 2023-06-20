@@ -50,6 +50,7 @@ class FormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    print(formKey.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -85,31 +86,76 @@ class FormPage extends StatelessWidget {
                 children: _buildForm(context, currentMedication),
                 onChanged: (value) {
                   updateMedicationFromFormFields(value);
-                  print('Form changed: ${value.toString()}');
                 },
               ),
-              ElevatedButton(
-                child: const Text('Reset'),
-                onPressed: () => formKey.currentState?.reset(),
+              // Reset button
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      var medicationMap = currentMedication.toMap();
+                      if (isEditing) {
+                        medicationsRepository.updateMedication(
+                            userController.getCurrentUserName(),
+                            currentMedication.id ?? 0,
+                            medicationMap);
+                        Get.back();
+                      } else {
+                        medicationsRepository.createMedication(
+                            userController.getCurrentUserName(),
+                            currentMedication.id ?? 0,
+                            medicationMap);
+                        Get.back();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Text(
+                        'Salvar',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              ElevatedButton(
-                child: const Text('Salvar'),
-                onPressed: () {
-                  var medicationMap = currentMedication.toMap();
-                  if (isEditing) {
-                    medicationsRepository.updateMedication(
-                        userController.getCurrentUserName(),
-                        currentMedication.id ?? 0,
-                        medicationMap);
-                    Get.back();
-                  } else {
-                    medicationsRepository.createMedication(
-                        userController.getCurrentUserName(),
-                        currentMedication.id ?? 0,
-                        medicationMap);
-                    Get.back();
-                  }
-                },
+              // Save button
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      formKey.currentState?.reset();
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Text(
+                        'Voltar',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -139,6 +185,7 @@ class FormPage extends StatelessWidget {
             onSelected: (selected) {
               currentMedication.updateName(selected);
             },
+            // initialValue: currentMedication.name ?? "",
           ),
           FastDateRangePicker(
             name: 'date_range_picker',
