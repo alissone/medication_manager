@@ -36,18 +36,17 @@ class MedicationRepository {
 
     print("⭐️ medications");
     print(medications);
-    print("⭐️ medications");
 
     return medications;
   }
 
   Future<void> updateMedication(
-      String userId, String medicationId, Map<String, dynamic> input) async {
+      String userId, int medicationId, Map<String, dynamic> input) async {
     final DocumentReference<Map<String, dynamic>> medicationRef =
         _usersCollection
             .doc(userId)
             .collection(medicationsPath)
-            .doc(medicationId);
+            .doc(medicationId.toString());
     await medicationRef.update(input);
   }
 

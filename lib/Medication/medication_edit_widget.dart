@@ -13,12 +13,12 @@ class MedicationEditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const title = 'Medication Manager';
+    const title = 'Detalhes';
     return FormPage(title: title);
   }
 }
 
-Medication getMedFromArgs(Map<String, dynamic>? getArguments) {
+Medication getMedFromArgs(List<Map<String, dynamic>>? getArguments) {
   Medication emptyMed = Medication();
   Dosage emptyDosage = Dosage();
   emptyMed.dosage = emptyDosage;
@@ -28,8 +28,8 @@ Medication getMedFromArgs(Map<String, dynamic>? getArguments) {
     return emptyMed;
   }
 
-  if (getArguments.containsKey('medication')) {
-    return getArguments['medication'];
+  if (getArguments[0].containsKey('medication')) {
+    return Medication.fromMap(getArguments[0]['medication']);
   }
 
   emptyMed.id = MedicationRepository.generateId();
@@ -42,6 +42,7 @@ class FormPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final String title;
   var currentMedication = getMedFromArgs(Get.arguments);
+  var isEditing = Get.arguments != null;
 
   var medicationsRepository = MedicationRepository();
   final userController = Get.find<UserController>();
@@ -95,10 +96,19 @@ class FormPage extends StatelessWidget {
                 child: const Text('Salvar'),
                 onPressed: () {
                   var medicationMap = currentMedication.toMap();
-                  medicationsRepository.createMedication(
-                      userController.getCurrentUserName(),
-                      currentMedication.id ?? 0,
-                      medicationMap);
+                  if (isEditing) {
+                    medicationsRepository.updateMedication(
+                        userController.getCurrentUserName(),
+                        currentMedication.id ?? 0,
+                        medicationMap);
+                    Get.back();
+                  } else {
+                    medicationsRepository.createMedication(
+                        userController.getCurrentUserName(),
+                        currentMedication.id ?? 0,
+                        medicationMap);
+                    Get.back();
+                  }
                 },
               ),
             ],
@@ -198,16 +208,16 @@ class FormPage extends StatelessWidget {
     ];
   }
 
-  String getNameFromAutocomplete(String search) {
-    print("search string: $search");
-
-    final name = MedicationDatabase.medicamentos.firstWhere(
-      (element) => element.startsWith(search),
-      orElse: () => "",
-    );
-    print("medication name: $name");
-    return name;
-  }
+  // String getNameFromAutocomplete(String search) {
+  //   print("search string: $search");
+  //
+  //   final name = MedicationDatabase.medicamentos.firstWhere(
+  //     (element) => element.startsWith(search),
+  //     orElse: () => "",
+  //   );
+  //   print("medication name: $name");
+  //   return name;
+  // }
 
   void updateMedicationFromFormFields(
       UnmodifiableMapView<String, dynamic> value) {

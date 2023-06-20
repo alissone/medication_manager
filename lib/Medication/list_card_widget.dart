@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medication_manager/Medication/medication_edit_widget.dart';
 import 'package:medication_manager/Utils/colors_list.dart';
-import 'package:medication_manager/models.dart';
 import 'package:medication_manager/Utils/text_styles.dart';
 import 'package:medication_manager/Utils/time_tools.dart';
+import 'package:medication_manager/models.dart';
 
 class ListCard extends StatelessWidget {
   const ListCard({
     Key? key,
+    required this.medication,
     required this.cardIcon,
     required this.cardColor,
     required this.medicationTitle,
@@ -15,6 +18,7 @@ class ListCard extends StatelessWidget {
     required this.medicationNextDose,
   }) : super(key: key);
 
+  final Medication medication;
   final IconData cardIcon;
   final Color cardColor;
   final String medicationTitle;
@@ -29,7 +33,9 @@ class ListCard extends StatelessWidget {
       child: InkWell(
         splashColor: AppColors.appColor.withAlpha(30),
         onTap: () {
-          debugPrint('Card tapped.');
+          Get.to(() => MedicationEditScreen(), arguments: [
+            {"medication": medication.toJson()},
+          ]);
         },
         child: SizedBox(
           width: 300,
@@ -58,7 +64,8 @@ class ListCard extends StatelessWidget {
                       medicationTitle,
                       style: AppTextStyles.heading2,
                     ),
-                    Text("${medicationDose.value}${medicationDose.unit}, $medicationFrequency",
+                    Text(
+                      "${medicationDose.value}${medicationDose.unit}, $medicationFrequency",
                       style: AppTextStyles.body,
                     ),
                     Container(

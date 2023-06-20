@@ -97,11 +97,30 @@ class Medication {
     };
   }
 
+  bool hasDate(String dateTimeString) {
+    return dateTimeString.length > 5;
+  }
+
   Medication.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     name = map['name'];
-    startTime = TimeOfDay.fromDateTime(DateTime.parse(map['startTime']));
-    repeatDelay = TimeOfDay.fromDateTime(DateTime.parse(map['repeatDelay']));
+
+    if (hasDate(map['startTime'])) {
+      startTime = TimeOfDay.fromDateTime(DateTime.parse(map['startTime']));
+    } else {
+      startTime = TimeOfDay(
+          hour: int.parse(map['startTime'].split(':')[0]),
+          minute: int.parse(map['startTime'].split(':')[1]));
+    }
+
+    if (hasDate(map['repeatDelay'])) {
+      repeatDelay = TimeOfDay.fromDateTime(DateTime.parse(map['repeatDelay']));
+    } else {
+      repeatDelay = TimeOfDay(
+          hour: int.parse(map['repeatDelay'].split(':')[0]),
+          minute: int.parse(map['repeatDelay'].split(':')[1]));
+    }
+
     color = map['color'];
     dosage = Dosage(unit: map['dosage']['unit'], value: map['dosage']['value']);
   }
