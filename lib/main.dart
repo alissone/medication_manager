@@ -35,8 +35,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      GetMaterialApp(
+    return GetMaterialApp(
       builder: (context, child) => MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
           child: child!),
@@ -67,7 +66,9 @@ class MedicationsListScreen extends StatefulWidget {
   void fetchData() async {
     var result = <Medication>[];
 
-    medicationsRepository.fetchAllMedications(userController.getCurrentUserName()).then(
+    medicationsRepository
+        .fetchAllMedications(userController.getCurrentUserName())
+        .then(
           (list) => {
             list.forEach((Map<String, dynamic> medication) {
               result.add(Medication.fromMap(medication));
@@ -119,11 +120,11 @@ class MedicationsListScreen extends StatefulWidget {
 class _MedicationsListScreenState extends State<MedicationsListScreen> {
   late MedicamentosController controller;
 
-
   @override
   void initState() {
     super.initState();
-    controller = Get.find<MedicamentosController>(); // Retrieve the registered instance of MyController
+    controller = Get.find<
+        MedicamentosController>(); // Retrieve the registered instance of MyController
     widget.fetchData();
   }
 
@@ -140,17 +141,19 @@ class _MedicationsListScreenState extends State<MedicationsListScreen> {
             shrinkWrap: true,
             itemCount: controller.medications.length,
             itemBuilder: (context, index) {
-              return
-
-              controller.isLoading ? Container(color: Colors.pink, width: 200, height: 200,) :
-                Wrap(
-                children: [
-                  MedicationCard(medication: controller.medications[index]),
-                  Obx(() =>
-                      Text(controller.title.value)
-                  ),
-                ],
-              );
+              return controller.isLoading
+                  ? Container(
+                      color: Colors.pink,
+                      width: 200,
+                      height: 200,
+                    )
+                  : Wrap(
+                      children: [
+                        MedicationCard(
+                            medication: controller.medications[index]),
+                        Obx(() => Text(controller.title.value)),
+                      ],
+                    );
             },
           ),
         ),
@@ -181,11 +184,13 @@ class MedicationCard extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: ListCard(
+          medication: medication,
           cardColor: iconColor,
           cardIcon: Icons.medication_rounded,
           medicationTitle: medication.name ?? "Desconhecido",
           medicationDose: medication.dosage ?? Dosage(),
-          medicationFrequency: "a cada ${formatTimeOfDay(medication.startTime ?? emptyTime)}",
+          medicationFrequency:
+              "a cada ${formatTimeOfDay(medication.startTime ?? emptyTime)}",
           medicationNextDose: medication.repeatDelay ?? emptyTime,
         ),
       ),
