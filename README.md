@@ -23,6 +23,8 @@
 ### Estrutura dos dados no Firebase Cloud Firestore
 <img width="660" alt="image" src="https://github.com/alissone/medication_manager/assets/6274136/fcd5bb3c-3964-49ad-b7b0-6c88f2dbbc14">
 
+
+
 ## Rodando o projeto
 
 - Instalar e adicionar ao PATH o Flutter: https://docs.flutter.dev/get-started/install
@@ -53,3 +55,15 @@ flutter run -d chrome --web-renderer html
 - Abrir `ios` > `Runner.xcworkspace`
 
 - `Command + R` para executar em Debug
+
+
+## TODO
+
+- [ ] Gerar lista de lembretes no Firebase para cada dose
+- [ ] Corrigir null exception ao clicar no botão "Switch to Input" dentro da visualização de calendário
+- [ ] Implementar Login com Firebase
+
+### Campos que ainda não estão sendo usados
+
+- [ ] Período Inicial / Final
+- [ ] Nível de Urgência
