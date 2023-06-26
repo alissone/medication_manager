@@ -21,29 +21,23 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
-              'you can reconfigure this by running the FlutterFire CLI again.',
+          'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
@@ -59,5 +53,23 @@ class DefaultFirebaseOptions {
     projectId: 'medicationmanager-fd492',
     authDomain: 'medicationmanager-fd492.firebaseapp.com',
     storageBucket: 'medicationmanager-fd492.appspot.com',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBpCL8sKlNLeVXLfJVQd7eCGW3AWSnMHVY',
+    appId: '1:1069680683413:android:70d1cb7bbb86501b5d2e9c',
+    messagingSenderId: '1069680683413',
+    projectId: 'medicationmanager-fd492',
+    storageBucket: 'medicationmanager-fd492.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyC4wzbFVD0do-gjqGL4vwkhbmtpbqnWmjg',
+    appId: '1:1069680683413:ios:f6abaa80ef7688a95d2e9c',
+    messagingSenderId: '1069680683413',
+    projectId: 'medicationmanager-fd492',
+    storageBucket: 'medicationmanager-fd492.appspot.com',
+    iosClientId: '1069680683413-qbk53s9qepulpf1assilar0kous2gifi.apps.googleusercontent.com',
+    iosBundleId: 'com.alissone.medicationManager',
   );
 }

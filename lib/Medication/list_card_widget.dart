@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:medication_manager/Medication/medication_edit_widget.dart';
 import 'package:medication_manager/Utils/colors_list.dart';
 import 'package:medication_manager/Utils/text_styles.dart';
 import 'package:medication_manager/Utils/time_tools.dart';
@@ -33,9 +31,10 @@ class ListCard extends StatelessWidget {
       child: InkWell(
         splashColor: AppColors.appColor.withAlpha(30),
         onTap: () {
-          Get.to(() => MedicationEditScreen(), arguments: [
-            {"medication": medication.toJson()},
-          ]);
+          // Get.to(() => MedicationEditScreen(), arguments: [
+          //   {"medication": medication.toJson()},
+          // ]);
+          showAlertDialog(context);
         },
         child: SizedBox(
           width: 300,
@@ -84,4 +83,36 @@ class ListCard extends StatelessWidget {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  // set up the buttons
+  Widget cancelButton = TextButton(
+    child: Text("Cancelar"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  Widget continueButton = TextButton(
+    child: Text("Excluir"),
+    onPressed: () {},
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Excluir"),
+    content: Text("Tem certeza que deseja excluir essa medicação?"),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1069680683413",
+    "project_id": "medicationmanager-fd492",
+    "storage_bucket": "medicationmanager-fd492.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069680683413:android:99eb73493ebe894e5d2e9c",
+        "android_client_info": {
+          "package_name": "com.alis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069680683413-mick092db69cs77v5k5ge75o4j1g4s6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpCL8sKlNLeVXLfJVQd7eCGW3AWSnMHVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069680683413-mick092db69cs77v5k5ge75o4j1g4s6e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1069680683413-g038qvp4ev6rgqv0nlc52bn6g1cpr6t6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alissone.medicationmanager"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069680683413:android:70d1cb7bbb86501b5d2e9c",
+        "android_client_info": {
+          "package_name": "com.example.medication_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069680683413-mick092db69cs77v5k5ge75o4j1g4s6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpCL8sKlNLeVXLfJVQd7eCGW3AWSnMHVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069680683413-mick092db69cs77v5k5ge75o4j1g4s6e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1069680683413-g038qvp4ev6rgqv0nlc52bn6g1cpr6t6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alissone.medicationmanager"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
