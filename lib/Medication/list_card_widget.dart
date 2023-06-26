@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medication_manager/Login/user_controller.dart';
+import 'package:medication_manager/Medication/medication_repository.dart';
 import 'package:medication_manager/Utils/colors_list.dart';
 import 'package:medication_manager/Utils/text_styles.dart';
 import 'package:medication_manager/Utils/time_tools.dart';
@@ -34,7 +37,7 @@ class ListCard extends StatelessWidget {
           // Get.to(() => MedicationEditScreen(), arguments: [
           //   {"medication": medication.toJson()},
           // ]);
-          showAlertDialog(context);
+          showAlertDialog(context, medication.id);
         },
         child: SizedBox(
           width: 300,
@@ -85,7 +88,7 @@ class ListCard extends StatelessWidget {
   }
 }
 
-showAlertDialog(BuildContext context) {
+showAlertDialog(BuildContext context, int? medicationId) {
   // set up the buttons
   Widget cancelButton = TextButton(
     child: Text("Cancelar"),
@@ -95,7 +98,13 @@ showAlertDialog(BuildContext context) {
   );
   Widget continueButton = TextButton(
     child: Text("Excluir"),
-    onPressed: () {},
+    onPressed: () {
+      var medicationsRepository = MedicationRepository();
+      final userController = Get.find<UserController>();
+      medicationsRepository.deleteMedication(
+          userController.username.value, medicationId.toString());
+      Navigator.pop(context);
+    },
   );
 
   // set up the AlertDialog
