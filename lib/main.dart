@@ -63,10 +63,10 @@ class MedicationsListScreen extends StatefulWidget {
   final medicationsRepository = MedicationRepository();
   final userController = Get.find<UserController>();
 
-  void fetchData() async {
+  Future<void> fetchData() async {
     var result = <Medication>[];
 
-    medicationsRepository
+    await medicationsRepository
         .fetchAllMedications(userController.getCurrentUserName())
         .then(
           (list) => {
@@ -137,24 +137,29 @@ class _MedicationsListScreenState extends State<MedicationsListScreen> {
           title: const Text("Meus Medicamentos"),
         ),
         body: Center(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: controller.medications.length,
-            itemBuilder: (context, index) {
-              return controller.isLoading
-                  ? Container(
-                      color: Colors.pink,
-                      width: 200,
-                      height: 200,
-                    )
-                  : Wrap(
-                      children: [
-                        MedicationCard(
-                            medication: controller.medications[index]),
-                        Obx(() => Text(controller.title.value)),
-                      ],
-                    );
-            },
+          child: SingleChildScrollView(
+            child: RefreshIndicator(
+              onRefresh: () => widget.fetchData(),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.medications.length,
+                itemBuilder: (context, index) {
+                  return controller.isLoading
+                      ? Container(
+                          color: Colors.pink,
+                          width: 200,
+                          height: 200,
+                        )
+                      : Wrap(
+                          children: [
+                            MedicationCard(
+                                medication: controller.medications[index]),
+                            Obx(() => Text(controller.title.value)),
+                          ],
+                        );
+                },
+              ),
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
